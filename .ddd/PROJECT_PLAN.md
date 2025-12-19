@@ -13,11 +13,12 @@ A modern static marketing site to introduce FSQ (Full-self quality) - an MCP-bas
   - Excellent TypeScript support
 
 ### Styling
-- **Tailwind CSS**
+- **Tailwind CSS v3.4**
   - Utility-first approach for rapid development
   - Easy to create modern, responsive designs
   - Custom color palette based on BrowserStack-inspired theme
   - Custom animations and transitions
+  - Note: Using v3 (stable) instead of v4 (beta) for production reliability
 
 ### Animations
 - **Framer Motion**
@@ -25,12 +26,23 @@ A modern static marketing site to introduce FSQ (Full-self quality) - an MCP-bas
   - Page transitions
   - Interactive hover effects
   - Professional micro-interactions
+  - Animated counters with spring physics
 
 ### Additional Libraries
-- **React Router** - Client-side routing
-- **Lucide React** - Modern icon library
+- **Lucide React** - Modern icon library (lightweight alternative to Font Awesome)
 - **TypeScript** - Type safety
-- **ESLint + Prettier** - Code quality
+- **ESLint** - Code quality
+
+### Package Manager
+- **pnpm** - Fast, disk space efficient package manager
+
+### Typography
+- **System Font Stack** - No external font dependencies
+  - macOS/iOS: San Francisco (via -apple-system)
+  - Windows: Segoe UI
+  - Android: Roboto
+  - Fallback: Helvetica Neue, Arial
+  - Benefits: Faster load times, native look, privacy-friendly
 
 ## Site Structure
 
@@ -41,24 +53,26 @@ A modern static marketing site to introduce FSQ (Full-self quality) - an MCP-bas
    - Org-level impact statistics
    - Call-to-action
 
-2. **Features** (Section on home or separate)
+2. **Features Section**
    - Recording capabilities
    - Replay functionality
    - MCP integration
    - Platform coverage (Windows, Android, iOS, macOS)
+   - 6 feature cards with icons
 
-3. **Impact Metrics**
-   - Weekly automated test steps
-   - Time savings
-   - Resource optimization
-   - Visual data presentation
+3. **Impact Metrics Section**
+   - Weekly automated test steps (400K+)
+   - Time savings (75 person-days/week)
+   - Resource optimization (3 FTE reduced per platform)
+   - Animated counters
+   - Visual emphasis on sustained gains
 
-4. **How It Works**
+4. **How It Works** (Future - Phase 3)
    - Step-by-step process
    - Integration workflow
    - Technical overview
 
-5. **Get Started** (CTA section)
+5. **Get Started** (Future - Phase 3)
    - Documentation link
    - GitHub repository
    - Contact information
@@ -67,171 +81,309 @@ A modern static marketing site to introduce FSQ (Full-self quality) - an MCP-bas
 
 ### Color Palette (BrowserStack-inspired)
 ```
-Primary Background: Light lavender/purple tint (from screenshot)
-- bg-primary: #f3f4ff / #f5f3ff (similar to image)
-- bg-secondary: #ffffff
+Primary Background: Light lavender/purple tint
+- primary-bg: #f3f4ff (main background)
+- secondary-bg: #ffffff (card backgrounds)
 
 Accent Colors:
-- purple-primary: #6366f1 (indigo)
-- purple-secondary: #8b5cf6 (violet)
-- blue-accent: #3b82f6
-- text-primary: #1e293b (slate-900)
-- text-secondary: #64748b (slate-500)
+- purple-primary: #6366f1 (indigo - primary CTA)
+- purple-secondary: #8b5cf6 (violet - secondary accents)
+- blue-accent: #3b82f6 (tertiary accents)
+
+Text Colors (Tailwind defaults):
+- text-slate-900: Primary text
+- text-slate-600: Secondary text
+- text-slate-400: Tertiary text
 ```
 
-### Typography
-- **Headings**: Inter or DM Sans (modern, clean)
-- **Body**: Inter (readable, professional)
-- Font sizes: Responsive scale (text-base to text-6xl)
+### Typography Scale
+- Font sizes: Responsive scale (text-sm to text-7xl)
+- Font weights: 300, 400, 500, 600, 700, 800
+- Line heights: Optimized for readability
 
-### Components
-1. **Navigation Bar**
-   - Sticky header
-   - Logo + navigation links
+### Components Built
+
+1. **Navigation Bar** ✅
+   - Sticky header with backdrop blur
+   - Logo with gradient background
+   - Desktop navigation links
+   - Mobile hamburger menu (responsive)
    - CTA button (Get Started)
+   - Smooth scroll behavior
 
-2. **Hero Section**
-   - Large headline about FSQ
-   - Subheadline explaining MCP + recording/replay
-   - Animated background elements
-   - Primary CTA
+2. **Hero Section** ✅
+   - Animated gradient background (floating circles)
+   - Badge component with emoji
+   - Large headline with gradient text
+   - Subheadline explaining value proposition
+   - Dual CTA buttons (Get Started, Watch Demo)
+   - Preview stats cards (3 metrics)
+   - Scroll indicator animation
 
-3. **Feature Cards**
+3. **Feature Cards** ✅
+   - 6 feature cards with unique icons:
+     * Record & Replay
+     * MCP Integration
+     * Cross-Platform
+     * Org-Level Impact
+     * Regression Quality Gate
+     * Continuous Scaling
    - Icon + title + description
-   - Hover animations
-   - Grid layout (responsive)
+   - Hover lift animations
+   - Grid layout (responsive: 1/2/3 columns)
+   - Gradient backgrounds (customizable per card)
+   - Scroll-triggered fade-in animations
 
-4. **Stats Section**
-   - Large numbers with animations
-   - 400,000+ test steps
-   - 75 person-days saved
-   - 3 FTE reduced per platform
+4. **Stats Section** ✅
+   - Animated counters (count up on scroll)
+   - 3 stat cards with icons and gradients
+   - Large numbers with spring physics
+   - Org-level impact messaging
+   - Gradient call-out section
+   - Background decorative elements
 
-5. **Platform Cards**
+5. **Platform Cards** ✅
    - Windows, Android, iOS, macOS
-   - Visual indicators
-   - Hover effects
+   - Emoji icons
+   - Hover scale effects
+   - Clean, minimal design
 
-6. **Footer**
-   - Links (Documentation, GitHub, etc.)
-   - Social media
-   - Copyright
+6. **Footer** ✅
+   - Four column layout (Brand, Product, Resources, Company)
+   - Social media links (GitHub, Twitter, LinkedIn, Email)
+   - Bottom bar with legal links
+   - Fully responsive design
+   - Dark theme (slate-900 background)
 
 ## Development Phases
 
-### Phase 1: Project Setup
-- [x] Initialize Vite + React + TypeScript
-- [x] Configure Tailwind CSS
-- [x] Install Framer Motion
-- [x] Setup project structure
-- [x] Configure routing
+### Phase 1: Project Setup ✅ COMPLETE
+- [x] Initialize Vite + React + TypeScript with pnpm
+- [x] Configure Tailwind CSS v3.4 (stable)
+- [x] Install Framer Motion & Lucide React
+- [x] Setup project structure (components, pages, utils)
+- [x] Configure PostCSS
+- [x] Setup system font stack (no external fonts)
 
-### Phase 2: Core Components
-- [ ] Navigation component
-- [ ] Hero section
-- [ ] Feature cards component
-- [ ] Stats counter component
-- [ ] Footer component
+### Phase 2: Core Components ✅ COMPLETE
+- [x] Navigation component (Header)
+- [x] Hero section with animations
+- [x] Feature cards component (FeatureCard)
+- [x] Stats counter component (Impact section)
+- [x] Footer component
+- [x] Button component (common)
+- [x] Home page integration
+- [x] App.tsx integration
 
-### Phase 3: Content Pages
-- [ ] Home page layout
-- [ ] Feature sections
-- [ ] Impact metrics section
-- [ ] How it works section
+### Phase 3: Additional Content (Future)
+- [ ] "How It Works" section
+- [ ] Testimonials/case studies (optional)
+- [ ] FAQ section (optional)
+- [ ] Get Started/CTA section
 
-### Phase 4: Animations & Polish
-- [ ] Scroll animations
-- [ ] Hover effects
-- [ ] Page transitions
-- [ ] Responsive optimization
-
-### Phase 5: Build & Deploy
-- [ ] Production build configuration
-- [ ] SEO optimization (meta tags, Open Graph)
+### Phase 4: Animations & Polish (Partially Done)
+- [x] Scroll animations (whileInView)
+- [x] Hover effects on cards
+- [x] Animated counters
+- [x] Page transitions
+- [ ] Additional parallax effects
 - [ ] Performance optimization
-- [ ] Deployment setup
+- [ ] Cross-browser testing
 
-## File Structure
+### Phase 5: Build & Deploy (Future)
+- [ ] Production build configuration
+- [ ] SEO optimization (meta tags, Open Graph) - Basic meta tags added
+- [ ] Performance audit
+- [ ] Deployment setup (Vercel/Netlify)
+
+## File Structure (Actual)
 ```
 fsq-site/
 ├── .ddd/                      # Development documentation
-│   └── PROJECT_PLAN.md
+│   ├── PROJECT_PLAN.md       # This file
+│   └── PHASE2_COMPLETE.md    # Phase 2 completion notes
 ├── public/                    # Static assets
-│   ├── favicon.ico
-│   └── images/
+│   └── vite.svg
 ├── src/
-│   ├── assets/               # Images, fonts
-│   ├── components/           # Reusable components
-│   │   ├── common/          # Button, Card, etc.
-│   │   ├── layout/          # Header, Footer, Layout
-│   │   └── sections/        # Hero, Features, Stats
-│   ├── pages/               # Page components
-│   │   └── Home.tsx
-│   ├── styles/              # Global styles
-│   │   └── index.css
-│   ├── utils/               # Helper functions
-│   ├── App.tsx
-│   ├── main.tsx
+│   ├── components/
+│   │   ├── common/
+│   │   │   ├── Button.tsx           # Reusable button with variants
+│   │   │   └── FeatureCard.tsx      # Feature card with icon
+│   │   ├── layout/
+│   │   │   ├── Header.tsx           # Navigation bar
+│   │   │   └── Footer.tsx           # Site footer
+│   │   └── sections/
+│   │       ├── Hero.tsx             # Hero section
+│   │       ├── Features.tsx         # Features grid
+│   │       └── Impact.tsx           # Stats/impact section
+│   ├── pages/
+│   │   └── Home.tsx                 # Home page composition
+│   ├── App.tsx                      # Main app component
+│   ├── main.tsx                     # Entry point
+│   ├── index.css                    # Global styles + Tailwind
 │   └── vite-env.d.ts
-├── index.html
+├── index.html                       # HTML template with meta tags
 ├── package.json
-├── tailwind.config.js
+├── pnpm-lock.yaml
+├── postcss.config.js                # PostCSS configuration
+├── tailwind.config.js               # Tailwind configuration
 ├── tsconfig.json
-└── vite.config.ts
+├── tsconfig.app.json
+├── tsconfig.node.json
+├── vite.config.ts
+├── eslint.config.js
+└── README.md
 ```
 
-## Key Features to Implement
+## Key Features Implemented
 
-### Visual Design
+### Visual Design ✅
 - Clean, modern layout inspired by BrowserStack
 - Soft purple/lavender background (#f3f4ff)
 - Card-based design with subtle shadows
-- Ample whitespace
+- Ample whitespace for readability
 - Rounded corners (rounded-xl, rounded-2xl)
+- Gradient text and backgrounds
 
-### Animations
-- Fade-in on scroll for sections
-- Counter animations for statistics
+### Animations ✅
+- Fade-in on scroll for sections (whileInView)
+- Counter animations for statistics (useSpring)
 - Hover lift effects on cards
-- Smooth page transitions
-- Parallax effects (subtle)
+- Smooth transitions throughout
+- Animated background elements (floating circles)
+- Scroll indicator animation
 
-### Responsive Design
+### Responsive Design ✅
 - Mobile-first approach
 - Breakpoints: sm (640px), md (768px), lg (1024px), xl (1280px)
 - Hamburger menu for mobile
 - Stacked layouts on small screens
+- Grid layouts adapt (1/2/3 columns)
 
-## Content Structure
+## Content Structure (Implemented)
 
 ### Hero Message
-"Full-Self Quality: AI-Powered Test Automation at Scale"
-"Record once, replay everywhere. FSQ delivers org-level regression testing across all platforms."
+- Primary: "Record Once, Replay Everywhere"
+- Secondary: "FSQ delivers org-level regression testing across all platforms. Built on Model Context Protocol for AI-powered workflows that provide sustained headcount leverage, not just efficiency gains."
 
 ### Key Value Props
 1. **Record & Replay** - Capture user interactions and replay as automated tests
 2. **MCP Integration** - Built on Model Context Protocol for AI-powered workflows
 3. **Cross-Platform** - Windows, Android, iOS, macOS support
 4. **Org-Level Impact** - Sustained headcount leverage, not just efficiency gains
+5. **Regression Quality Gate** - AI-powered agents as core quality component
+6. **Continuous Scaling** - Ongoing, repeatable gains
 
-### Statistics to Highlight
+### Statistics Highlighted
 - 400,000+ automated test steps executed weekly
 - ~75 person-days saved per week
 - ~3 FTE reduced per platform per week
 - Ongoing, repeatable gains
 
-## Next Steps
-1. Initialize project with Vite + React + TypeScript
-2. Setup Tailwind CSS and Framer Motion
-3. Create component structure
-4. Build hero and navigation
-5. Implement feature sections
-6. Add animations and polish
-7. Optimize and deploy
+## Technical Decisions & Lessons Learned
+
+### Tailwind CSS Version
+- **Decision**: Use Tailwind v3.4 instead of v4
+- **Reason**: v4 is still in beta and has breaking changes in PostCSS configuration
+- **Result**: Stable, production-ready styling with full feature support
+
+### Font Strategy
+- **Decision**: Use system font stack instead of Google Fonts
+- **Reason**:
+  - Faster load times (no external requests)
+  - Privacy-friendly (no tracking)
+  - Native look and feel per platform
+  - Zero font licensing concerns
+- **Result**: Clean, professional typography with excellent performance
+
+### Icon Library
+- **Decision**: Use Lucide React instead of Font Awesome
+- **Reason**: Lightweight, modern, tree-shakeable, TypeScript support
+- **Result**: Clean icons with small bundle size
+
+### Animation Library
+- **Decision**: Framer Motion for all animations
+- **Reason**:
+  - React-first API
+  - Declarative animations
+  - Spring physics for natural motion
+  - Scroll-triggered animations (whileInView)
+- **Result**: Smooth, professional animations throughout
+
+### Type Safety
+- **Decision**: Fix LucideIcon import issue
+- **Problem**: `LucideIcon` type not exported from lucide-react
+- **Solution**: Use `ComponentType<IconProps>` interface
+- **Result**: Full type safety maintained
+
+## Current Status: Phase 2 Complete ✅
+
+### What's Working
+- ✅ Development server running on http://localhost:5173
+- ✅ Hot Module Replacement (HMR) working
+- ✅ All components rendering correctly
+- ✅ Animations smooth and performant
+- ✅ Responsive design on all breakpoints
+- ✅ No compilation errors
+- ✅ TypeScript strict mode enabled
+
+### What's Ready
+The site now has:
+1. Fully functional navigation with mobile menu
+2. Eye-catching hero section with animations
+3. Six feature cards showcasing FSQ capabilities
+4. Animated statistics showing org-level impact
+5. Platform support badges
+6. Professional footer with links
+
+### Performance Optimizations Applied
+- System fonts (no external font loading)
+- Optimized animations (GPU-accelerated transforms)
+- Lazy loading with whileInView (animations trigger on scroll)
+- Tree-shaken icon imports
+- Static site generation ready
+
+## Commands
+
+```bash
+# Development
+pnpm install          # Install dependencies
+pnpm dev             # Start dev server (http://localhost:5173)
+
+# Build for production
+pnpm build           # Build static site to dist/
+
+# Preview production build
+pnpm preview         # Preview built site
+
+# Linting
+pnpm lint            # Run ESLint
+```
+
+## Next Steps (Phase 3+)
+
+### Immediate Next Steps
+1. Add "How It Works" section with step-by-step guide
+2. Add more detailed documentation links
+3. Consider adding code examples or demos
+4. Add GitHub repository link
+5. Performance audit and optimization
+
+### Future Enhancements
+- Add blog/news section
+- Add case studies/testimonials
+- Add interactive demo
+- Add video walkthrough
+- Add documentation search
+- Add changelog
+- Add API documentation section
 
 ## Notes
-- Focus on modern, clean design
-- Emphasize org-level impact over individual efficiency
-- Use the lavender/purple background from BrowserStack reference
-- Ensure fast load times (static site)
-- Make it easy to update content
+- Focus on modern, clean design ✅
+- Emphasize org-level impact over individual efficiency ✅
+- Use the lavender/purple background from BrowserStack reference ✅
+- Ensure fast load times (static site) ✅
+- Make it easy to update content ✅
+- No external dependencies for fonts ✅
+- Production-ready with Tailwind v3 ✅
+- Fully responsive and accessible ✅
