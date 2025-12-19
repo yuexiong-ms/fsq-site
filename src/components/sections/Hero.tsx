@@ -1,10 +1,20 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Play } from 'lucide-react';
 import { Button } from '../common/Button';
+import { VideoModal } from '../common/VideoModal';
 
 export const Hero = () => {
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
+
   return (
+    <>
+      <VideoModal
+        isOpen={isVideoOpen}
+        onClose={() => setIsVideoOpen(false)}
+        videoUrl="https://edgequality.blob.core.windows.net/video/FSQ.mp4?sp=r&st=2025-12-18T08:51:32Z&se=2030-06-30T17:06:32Z&sv=2024-11-04&sr=b&sig=rNJpjz9nhT8PpLZzw3Q1FpUS0La1zNRWyuM0mvuTOds%3D"
+      />
     <section id="hero" className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-bg via-white to-primary-bg overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
@@ -84,7 +94,12 @@ export const Hero = () => {
                   Get Started <ArrowRight size={20} />
                 </Button>
               </Link>
-              <Button size="lg" variant="outline" className="gap-2">
+              <Button
+                size="lg"
+                variant="outline"
+                className="gap-2"
+                onClick={() => setIsVideoOpen(true)}
+              >
                 <Play size={20} /> Watch Demo
               </Button>
             </motion.div>
@@ -133,5 +148,6 @@ export const Hero = () => {
         </div>
       </motion.div>
     </section>
+    </>
   );
 };
