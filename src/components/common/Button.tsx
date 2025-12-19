@@ -24,10 +24,17 @@ export const Button = ({
     outline: 'border-2 border-purple-primary text-purple-primary hover:bg-purple-primary hover:text-white'
   };
 
-  const sizes = {
-    sm: 'px-4 py-2 text-sm',
-    md: 'px-6 py-3 text-base',
-    lg: 'px-8 py-4 text-lg'
+  const sizeBase = {
+    sm: 'px-4 text-sm',
+    md: 'px-6 text-base',
+    lg: 'px-8 text-base'
+  };
+
+  // Adjust padding for outline variant to compensate for border
+  const sizePadding = {
+    sm: variant === 'outline' ? 'py-[6px]' : 'py-2',
+    md: variant === 'outline' ? 'py-[10px]' : 'py-3',
+    lg: variant === 'outline' ? 'py-[12px]' : 'py-3.5'
   };
 
   return (
@@ -35,7 +42,7 @@ export const Button = ({
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       onClick={onClick}
-      className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
+      className={`${baseStyles} ${variants[variant]} ${sizeBase[size]} ${sizePadding[size]} ${className}`}
     >
       {children}
     </motion.button>
