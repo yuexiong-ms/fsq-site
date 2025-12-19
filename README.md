@@ -130,11 +130,37 @@ Main content can be edited in:
 
 ## Deployment
 
-This is a static site and can be deployed to:
-- Vercel: `vercel deploy`
-- Netlify: Drag & drop the `dist` folder
-- GitHub Pages: Copy `dist` contents to `gh-pages` branch
-- Any static hosting service
+### Docker (Recommended for Production)
+
+Build and run as a Docker container:
+
+```bash
+# Build the image
+docker build -t fsq-site:latest .
+
+# Run the container
+docker run -d -p 8080:80 --name fsq-site fsq-site:latest
+
+# Or use docker-compose
+docker-compose up -d
+```
+
+Visit `http://localhost:8080` to see the site.
+
+**Features:**
+- Multi-stage build (Node.js build + nginx serve)
+- Optimized for production (gzip, caching, security headers)
+- Health check endpoint at `/health`
+- Image size: ~50MB
+- See `.ddd/DOCKER.md` for full documentation
+
+### Static Hosting
+
+This is a static site and can also be deployed to:
+- **Vercel**: `vercel deploy`
+- **Netlify**: Drag & drop the `dist` folder
+- **GitHub Pages**: Copy `dist` contents to `gh-pages` branch
+- **Any static hosting service**
 
 ## License
 
