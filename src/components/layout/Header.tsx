@@ -13,6 +13,7 @@ export const Header = () => {
     { name: 'Home', href: '#hero' },
     { name: 'Features', href: '#features' },
     { name: 'Impact', href: '#impact' },
+    { name: 'Extension', href: '#extension' },
   ];
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
