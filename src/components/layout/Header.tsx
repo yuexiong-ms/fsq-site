@@ -1,16 +1,43 @@
 import { useState } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { Button } from '../common/Button';
 
 export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const navLinks = [
+    { name: 'Home', href: '#hero' },
     { name: 'Features', href: '#features' },
     { name: 'Impact', href: '#impact' },
-    { name: 'How It Works', href: '#how-it-works' },
   ];
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+
+    // If not on home page, navigate to home first
+    if (location.pathname !== '/') {
+      navigate('/');
+      // Wait for navigation, then scroll
+      setTimeout(() => {
+        const element = document.querySelector(href);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      // If already on home page, just scroll
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    setMobileMenuOpen(false);
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md z-50 shadow-sm">
@@ -22,14 +49,14 @@ export const Header = () => {
             animate={{ opacity: 1, x: 0 }}
             className="flex items-center"
           >
-            <a href="/" className="flex items-center space-x-2">
+            <Link to="/" className="flex items-center space-x-2">
               <div className="w-10 h-10 bg-gradient-to-br from-purple-primary to-purple-secondary rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-xl">F</span>
               </div>
               <span className="text-xl md:text-2xl font-bold text-slate-900">
                 FSQ
               </span>
-            </a>
+            </Link>
           </motion.div>
 
           {/* Desktop Navigation */}
@@ -38,10 +65,11 @@ export const Header = () => {
               <motion.a
                 key={link.name}
                 href={link.href}
+                onClick={(e) => handleNavClick(e, link.href)}
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="text-slate-600 hover:text-purple-primary transition-colors font-medium"
+                className="text-slate-600 hover:text-purple-primary transition-colors font-medium cursor-pointer"
               >
                 {link.name}
               </motion.a>
@@ -51,7 +79,9 @@ export const Header = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
             >
-              <Button size="sm">Get Started</Button>
+              <Link to="/get-started">
+                <Button size="sm">Get Started</Button>
+              </Link>
             </motion.div>
           </div>
 
@@ -79,15 +109,17 @@ export const Header = () => {
                 <a
                   key={link.name}
                   href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-slate-600 hover:text-purple-primary transition-colors font-medium py-2"
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className="text-slate-600 hover:text-purple-primary transition-colors font-medium py-2 cursor-pointer"
                 >
                   {link.name}
                 </a>
               ))}
-              <Button size="sm" className="w-full">
-                Get Started
-              </Button>
+              <Link to="/get-started" className="w-full">
+                <Button size="sm" className="w-full">
+                  Get Started
+                </Button>
+              </Link>
             </div>
           </motion.div>
         )}

@@ -1,10 +1,11 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { ArrowRight, Play } from 'lucide-react';
 import { Button } from '../common/Button';
 
 export const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-bg via-white to-primary-bg overflow-hidden">
+    <section id="hero" className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-bg via-white to-primary-bg overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
@@ -78,9 +79,11 @@ export const Hero = () => {
               transition={{ delay: 0.7, duration: 0.8 }}
               className="flex flex-col sm:flex-row gap-4 mb-12 justify-center"
             >
-              <Button size="lg" className="gap-2">
-                Get Started <ArrowRight size={20} />
-              </Button>
+              <Link to="/get-started">
+                <Button size="lg" className="gap-2">
+                  Get Started <ArrowRight size={20} />
+                </Button>
+              </Link>
               <Button size="lg" variant="outline" className="gap-2">
                 <Play size={20} /> Watch Demo
               </Button>

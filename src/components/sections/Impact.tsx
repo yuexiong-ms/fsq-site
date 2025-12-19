@@ -79,7 +79,7 @@ export const Impact = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="inline-flex items-center px-4 py-2 mb-6 bg-white rounded-full shadow-md border border-purple-100"
+            className="inline-flex items-center px-4 py-2 mb-6 bg-white/80 rounded-full shadow-sm border border-purple-50"
           >
             <TrendingUp className="text-purple-primary mr-2" size={20} />
             <span className="text-purple-primary font-semibold text-sm">
