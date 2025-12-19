@@ -113,12 +113,14 @@ Text Colors (Tailwind defaults):
 
 2. **Hero Section** ✅
    - Animated gradient background (floating circles)
-   - Badge component with emoji
-   - Large headline with gradient text
-   - Subheadline explaining value proposition
+   - Product name headline with gradient text ("Full-Self Quality")
+   - Value proposition tagline ("Record Once, Replay Everywhere")
+   - Three-line headline layout with line breaks
+   - Subheadline explaining FSQ's capabilities
    - Dual CTA buttons (Get Started, Watch Demo)
-   - Preview stats cards (3 metrics)
+   - Preview stats cards (3 metrics: 400K+ Test Steps, 75 Days Saved, 3 FTE Reduced)
    - Scroll indicator animation
+   - Animated mockup component showing FSQ workflow
 
 3. **Feature Cards** ✅
    - 6 feature cards with unique icons:
@@ -154,6 +156,17 @@ Text Colors (Tailwind defaults):
    - Bottom bar with legal links
    - Fully responsive design
    - Dark theme (slate-900 background)
+
+7. **Animated Mockup** ✅
+   - Window-style UI mockup showing FSQ workflow
+   - Three animated scenes cycling every 3.5 seconds:
+     * Scene 1: Record Test in Natural Language (BDD test case example)
+     * Scene 2: AI Records & Generates Code (browser preview, AI conversion, MCP server)
+     * Scene 3: Replay Across All Platforms (Windows, Mac, Android, iOS)
+   - Gradient background with animated glow effects
+   - Progress indicator bar for each scene
+   - Scene navigation dots
+   - Staggered fade-in animations for list items
 
 ## Development Phases
 
@@ -199,8 +212,11 @@ Text Colors (Tailwind defaults):
 ### 🚧 Current Phase
 
 #### Phase 4: Content Refinement (In Progress)
-- [ ] **Text refinement**
-  - [ ] Refine hero section copy
+- [x] **Text refinement**
+  - [x] Refine hero section copy (Updated to "Full-Self Quality" + "Record Once, Replay Everywhere")
+  - [x] Update hero layout (Three-line headline structure)
+  - [x] Add animated mockup showing FSQ workflow
+  - [x] Update mockup content to show actual FSQ usage (BDD tests, AI recording, cross-platform replay)
   - [ ] Update feature descriptions
   - [ ] Polish impact metrics messaging
   - [ ] Add more detailed product information
@@ -254,6 +270,7 @@ fsq-site/
 │   │   │   └── Footer.tsx           # Site footer
 │   │   └── sections/
 │   │       ├── Hero.tsx             # Hero section
+│   │       ├── AnimatedMockup.tsx   # Animated workflow mockup
 │   │       ├── Features.tsx         # Features grid
 │   │       └── Impact.tsx           # Stats/impact section
 │   ├── pages/
@@ -303,8 +320,11 @@ fsq-site/
 ## Content Structure (Implemented)
 
 ### Hero Message
-- Primary: "Record Once, Replay Everywhere"
-- Secondary: "FSQ delivers org-level regression testing across all platforms. Built on Model Context Protocol for AI-powered workflows that provide sustained headcount leverage, not just efficiency gains."
+- Product Name: "Full-Self Quality" (gradient purple)
+- Tagline: "Record Once, Replay Everywhere" (black text)
+- Three-line layout structure
+- Description: "FSQ delivers org-level regression testing across all platforms. Built on Model Context Protocol for AI-powered workflows that provide sustained headcount leverage, not just efficiency gains."
+- Right side: Animated mockup showing FSQ workflow (3 scenes cycling every 3.5s)
 
 ### Key Value Props
 1. **Record & Replay** - Capture user interactions and replay as automated tests
