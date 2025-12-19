@@ -128,31 +128,38 @@ Main content can be edited in:
 - Features: `src/components/sections/Features.tsx`
 - Impact Stats: `src/components/sections/Impact.tsx`
 
-## Deployment
+## Docker Deployment
 
-### Docker (Recommended for Production)
+### Local Development
 
-Build and run as a Docker container:
+Build and run locally for development:
 
 ```bash
-# Build the image
-docker build -t fsq-site:latest .
+# Build local image
+./scripts/debug.sh
 
-# Run the container
-docker run -d -p 8080:80 --name fsq-site fsq-site:latest
+# Run container
+docker run -d -p 8080:80 fsd-site:latest
 
-# Or use docker-compose
-docker-compose up -d
+# Access at http://localhost:8080
 ```
 
-Visit `http://localhost:8080` to see the site.
+**Image**: `fsd-site:latest` (builds for your current platform)
 
-**Features:**
-- Multi-stage build (Node.js build + nginx serve)
-- Optimized for production (gzip, caching, security headers)
-- Health check endpoint at `/health`
-- Image size: ~50MB
-- See `.ddd/DOCKER.md` for full documentation
+### Production Release
+
+Build multi-platform image and push to Azure Container Registry:
+
+```bash
+# Release to ACR
+./scripts/release.sh
+```
+
+**Image**: `steinsz.azurecr.io/fsd-site:latest`
+
+**Platform**: linux/amd64 (x86_64) for production Linux servers
+
+See `scripts/README.md` for details.
 
 ### Static Hosting
 
