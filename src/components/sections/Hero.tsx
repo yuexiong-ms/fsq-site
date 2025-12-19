@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, Play } from 'lucide-react';
 import { Button } from '../common/Button';
-import { AnimatedMockup } from './AnimatedMockup';
 
 export const Hero = () => {
   return (
@@ -36,12 +35,13 @@ export const Hero = () => {
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left side - Text content */}
+        <div className="flex justify-center">
+          {/* Text content */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
+            className="text-center max-w-4xl"
           >
             {/* Main Heading */}
             <motion.h1
@@ -76,7 +76,7 @@ export const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.8 }}
-              className="flex flex-col sm:flex-row gap-4 mb-12"
+              className="flex flex-col sm:flex-row gap-4 mb-12 justify-center"
             >
               <Button size="lg" className="gap-2">
                 Get Started <ArrowRight size={20} />
@@ -91,7 +91,7 @@ export const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.9, duration: 0.8 }}
-              className="grid grid-cols-3 gap-6"
+              className="grid grid-cols-3 gap-6 max-w-2xl mx-auto"
             >
               {[
                 { value: '400K+', label: 'Test Steps' },
@@ -111,16 +111,6 @@ export const Hero = () => {
                 </motion.div>
               ))}
             </motion.div>
-          </motion.div>
-
-          {/* Right side - Animated Mockup */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-            className="lg:block hidden"
-          >
-            <AnimatedMockup />
           </motion.div>
         </div>
       </div>

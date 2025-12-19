@@ -10,7 +10,6 @@ export const Header = () => {
     { name: 'Features', href: '#features' },
     { name: 'Impact', href: '#impact' },
     { name: 'How It Works', href: '#how-it-works' },
-    { name: 'Docs', href: '#docs' },
   ];
 
   return (
