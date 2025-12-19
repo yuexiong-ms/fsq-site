@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Radio, Repeat, Layers, Zap, Shield, TrendingUp } from 'lucide-react';
+import { Radio, Repeat, Layers, Zap, Shield, TrendingUp, Monitor, Smartphone, Apple, Laptop } from 'lucide-react';
 import { FeatureCard } from '../common/FeatureCard';
 
 export const Features = () => {
@@ -97,29 +97,32 @@ export const Features = () => {
           viewport={{ once: true }}
           className="mt-20 text-center"
         >
-          <h3 className="text-2xl font-bold text-slate-900 mb-8">
+          <h3 className="text-2xl font-bold text-slate-900 mb-10">
             Supported Platforms
           </h3>
           <div className="flex flex-wrap justify-center gap-6">
             {[
-              { name: 'Windows', icon: '🪟' },
-              { name: 'Android', icon: '🤖' },
-              { name: 'iOS', icon: '🍎' },
-              { name: 'macOS', icon: '💻' },
-            ].map((platform, index) => (
-              <motion.div
-                key={platform.name}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ scale: 1.1 }}
-                className="flex items-center gap-3 bg-white px-6 py-4 rounded-xl shadow-md border border-purple-50"
-              >
-                <span className="text-3xl">{platform.icon}</span>
-                <span className="font-semibold text-slate-900">{platform.name}</span>
-              </motion.div>
-            ))}
+              { name: 'Windows', Icon: Monitor, color: 'text-blue-600' },
+              { name: 'Android', Icon: Smartphone, color: 'text-green-600' },
+              { name: 'iOS', Icon: Apple, color: 'text-slate-800' },
+              { name: 'macOS', Icon: Laptop, color: 'text-slate-700' },
+            ].map((platform, index) => {
+              const { Icon } = platform;
+              return (
+                <motion.div
+                  key={platform.name}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ scale: 1.05 }}
+                  className="flex items-center justify-center gap-3 bg-white px-6 py-3 rounded-lg shadow-sm hover:shadow-md border border-slate-200 transition-all duration-200 w-36"
+                >
+                  <Icon className={`${platform.color}`} size={24} />
+                  <span className="font-medium text-slate-900">{platform.name}</span>
+                </motion.div>
+              );
+            })}
           </div>
         </motion.div>
       </div>
