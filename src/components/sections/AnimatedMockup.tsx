@@ -108,15 +108,19 @@ export const AnimatedMockup = () => {
       });
     }, 800);
 
-    // Step progression
-    const stepInterval = setInterval(() => {
+    // Step progression - duration proportional to sub-line count
+    const baseDuration = 800; // base time per step
+    const perLineDuration = 600; // time per sub-line
+    const stepDuration = baseDuration + subLineCount * perLineDuration;
+
+    const stepTimeout = setTimeout(() => {
       setCurrentStep((prev) => (prev + 1) % steps.length);
       setCurrentLine(0);
-    }, 2500);
+    }, stepDuration);
 
     return () => {
       clearInterval(lineInterval);
-      clearInterval(stepInterval);
+      clearTimeout(stepTimeout);
     };
   }, [steps.length, currentStep]);
 
