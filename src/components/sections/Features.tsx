@@ -1,43 +1,43 @@
 import { motion } from 'framer-motion';
-import { Radio, Repeat, Layers, Zap, Shield, TrendingUp, Monitor, Smartphone, Apple, Laptop } from 'lucide-react';
+import { Rocket, Puzzle, Bot, Target, Lock, Zap, Monitor, Smartphone, Apple, Laptop } from 'lucide-react';
 import { FeatureCard } from '../common/FeatureCard';
 
 export const Features = () => {
   const features = [
     {
-      icon: Radio,
-      title: 'Record & Replay',
-      description: 'Capture user interactions once and replay as automated tests across all platforms. No manual script writing required.',
+      icon: Rocket,
+      title: 'Scale coverage effortlessly',
+      description: 'Get hundreds of reliable tests in days. FSQ converts real user actions and natural language into automated end-to-end coverage.',
       gradient: 'from-purple-primary to-purple-secondary',
     },
     {
-      icon: Layers,
-      title: 'MCP Integration',
-      description: 'Built on Model Context Protocol, enabling AI-powered workflows that understand and adapt to your testing needs.',
+      icon: Puzzle,
+      title: 'Make testing accessible',
+      description: 'Any engineer can record, review, and run tests in plain English—no deep framework expertise or long training required.',
       gradient: 'from-purple-secondary to-blue-accent',
     },
     {
-      icon: Repeat,
-      title: 'Cross-Platform',
-      description: 'Seamlessly test across Windows, Android, iOS, and macOS with a single test recording.',
+      icon: Bot,
+      title: 'Expand coverage while you sleep',
+      description: 'Engineers focus on shipping features while FSQ handles QA. Tests evolve with UI changes, reducing manual maintenance.',
       gradient: 'from-blue-accent to-purple-primary',
     },
     {
-      icon: Zap,
-      title: 'Org-Level Impact',
-      description: 'Sustained headcount leverage with 400K+ automated test steps executed weekly, not just individual efficiency gains.',
+      icon: Target,
+      title: 'Focus only on real regressions',
+      description: 'AI-powered assertions filter out false positives so teams spend time fixing real bugs, not chasing noise.',
       gradient: 'from-purple-primary to-purple-secondary',
     },
     {
-      icon: Shield,
-      title: 'Regression Quality Gate',
-      description: 'AI-powered agents operate as a core component of your release quality gate, ensuring comprehensive coverage.',
+      icon: Lock,
+      title: 'Record once, trust every run',
+      description: 'FSQ captures deterministic user actions with high-fidelity recording, ensuring test steps are precise, repeatable, and free from interpretation drift.',
       gradient: 'from-purple-secondary to-blue-accent',
     },
     {
-      icon: TrendingUp,
-      title: 'Continuous Scaling',
-      description: 'Save ~75 person-days per week and reduce ~3 FTE per platform. These gains are ongoing and repeatable.',
+      icon: Zap,
+      title: 'Replay with confidence, not guesswork',
+      description: 'Recorded scripts replay deterministically without LLM reasoning at runtime—dramatically reducing token usage and eliminating hallucination-driven flakiness.',
       gradient: 'from-blue-accent to-purple-primary',
     },
   ];
