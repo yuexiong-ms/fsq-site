@@ -65,8 +65,7 @@ export const Hero = () => {
                 Full-Self Quality
               <br />
               </span>
-              Record Once,
-              Replay Everywhere
+              The easiest way to build and trust software quality
               <br />
             </motion.h1>
 
@@ -77,9 +76,7 @@ export const Hero = () => {
               transition={{ delay: 0.5, duration: 0.8 }}
               className="text-xl text-slate-600 mb-8 leading-relaxed"
             >
-              FSQ delivers org-level regression testing across all platforms.
-              Built on Model Context Protocol for AI-powered workflows that provide
-              sustained headcount leverage, not just efficiency gains.
+              FSQ records real user actions and replays them reliably—so teams ship faster with confidence.
             </motion.p>
 
             {/* CTA Buttons */}
@@ -109,12 +106,11 @@ export const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.9, duration: 0.8 }}
-              className="grid grid-cols-3 gap-6 max-w-2xl mx-auto"
+              className="grid grid-cols-2 gap-6 max-w-md mx-auto"
             >
               {[
-                { value: '400K+', label: 'Test Steps' },
-                { value: '75', label: 'Days Saved' },
-                { value: '3', label: 'FTE Reduced' },
+                { value: '1,080,000', label: 'Steps' },
+                { value: '1497', label: 'Hours Saved' },
               ].map((stat, index) => (
                 <motion.div
                   key={stat.label}
