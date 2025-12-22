@@ -6,6 +6,7 @@ export const AnimatedMockup = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [currentLine, setCurrentLine] = useState(0);
   const [typedText, setTypedText] = useState('');
+  const [typingDone, setTypingDone] = useState(false);
 
   const steps = [
     {
@@ -73,17 +74,24 @@ export const AnimatedMockup = () => {
   const commandText = 'fsq run';
 
   useEffect(() => {
-    // Typing animation
-    let charIndex = 0;
-    const typeInterval = setInterval(() => {
-      if (charIndex <= commandText.length) {
-        setTypedText(commandText.slice(0, charIndex));
-        charIndex++;
-      } else {
-        clearInterval(typeInterval);
-      }
-    }, 150);
+    // Typing animation - only run once
+    if (!typingDone) {
+      let charIndex = 0;
+      const typeInterval = setInterval(() => {
+        if (charIndex <= commandText.length) {
+          setTypedText(commandText.slice(0, charIndex));
+          charIndex++;
+        } else {
+          setTypingDone(true);
+          clearInterval(typeInterval);
+        }
+      }, 150);
 
+      return () => clearInterval(typeInterval);
+    }
+  }, [typingDone]);
+
+  useEffect(() => {
     // Line progression within current step
     const currentBlock = codeBlocks[currentStep];
     const subLineCount = currentBlock.lines.length - 1; // exclude command line
@@ -104,7 +112,6 @@ export const AnimatedMockup = () => {
     }, 2500);
 
     return () => {
-      clearInterval(typeInterval);
       clearInterval(lineInterval);
       clearInterval(stepInterval);
     };
@@ -193,6 +200,10 @@ export const AnimatedMockup = () => {
             const Icon = step.icon;
             const isActive = index === currentStep;
             const isPast = index < currentStep;
+            // Check if current step is done (on last sub-line)
+            const currentBlock = codeBlocks[currentStep];
+            const subLineCount = currentBlock.lines.length - 1;
+            const isCurrentStepDone = isActive && currentLine >= subLineCount - 1;
 
             return (
               <div key={step.title}>
@@ -225,7 +236,7 @@ export const AnimatedMockup = () => {
                       {step.description}
                     </div>
                   </div>
-                  {isPast && (
+                  {(isPast || isCurrentStepDone) && (
                     <div className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
                       <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
