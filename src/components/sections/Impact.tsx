@@ -1,6 +1,6 @@
 import { motion, useInView, useMotionValue, useSpring } from 'framer-motion';
 import { useEffect, useRef } from 'react';
-import { TrendingUp, Users, Clock, Target } from 'lucide-react';
+import { TrendingUp, Clock, Target } from 'lucide-react';
 
 interface AnimatedCounterProps {
   value: number;
@@ -36,27 +36,19 @@ export const Impact = () => {
   const stats = [
     {
       icon: Target,
-      value: 400000,
-      suffix: '+',
-      label: 'Automated Test Steps',
-      sublabel: 'Executed Every Week',
+      value: 1080000,
+      suffix: '',
+      label: 'Test Steps',
+      sublabel: 'Automated and Executed',
       gradient: 'from-purple-primary to-purple-secondary',
     },
     {
       icon: Clock,
-      value: 75,
+      value: 1497,
       suffix: '',
-      label: 'Person-Days Saved',
-      sublabel: 'Per Week, Sustained',
+      label: 'Hours Saved',
+      sublabel: 'Through Automation',
       gradient: 'from-purple-secondary to-blue-accent',
-    },
-    {
-      icon: Users,
-      value: 3,
-      suffix: '',
-      label: 'FTE Reduced',
-      sublabel: 'Per Platform Per Week',
-      gradient: 'from-blue-accent to-purple-primary',
     },
   ];
 
@@ -106,7 +98,7 @@ export const Impact = () => {
         </motion.div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto mb-16">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}

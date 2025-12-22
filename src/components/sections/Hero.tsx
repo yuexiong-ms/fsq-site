@@ -109,7 +109,7 @@ export const Hero = () => {
               className="grid grid-cols-2 gap-6 max-w-md mx-auto"
             >
               {[
-                { value: '1,080,000', label: 'Steps' },
+                { value: '1,080,000', label: 'Test Steps' },
                 { value: '1497', label: 'Hours Saved' },
               ].map((stat, index) => (
                 <motion.div

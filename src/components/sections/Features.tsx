@@ -90,7 +90,7 @@ export const Features = () => {
           ))}
         </div>
 
-        {/* Platform Support */}
+        {/* Platform & CI/CD Support */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -98,9 +98,10 @@ export const Features = () => {
           className="mt-20 text-center"
         >
           <h3 className="text-2xl font-bold text-slate-900 mb-10">
-            Supported Platforms
+            Supported Platforms & CI/CD
           </h3>
-          <div className="flex flex-wrap justify-center gap-6">
+          {/* Platforms row */}
+          <div className="flex flex-wrap justify-center items-center gap-10 md:gap-14 mb-8">
             {[
               { name: 'Windows', Icon: Monitor, color: 'text-blue-600' },
               { name: 'Android', Icon: Smartphone, color: 'text-green-600' },
@@ -111,18 +112,38 @@ export const Features = () => {
               return (
                 <motion.div
                   key={platform.name}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.05 }}
-                  className="flex items-center justify-center gap-3 bg-white px-6 py-3 rounded-lg shadow-sm hover:shadow-md border border-slate-200 transition-all duration-200 w-36"
+                  className="flex items-center gap-3 opacity-70 hover:opacity-100 transition-opacity duration-200"
                 >
-                  <Icon className={`${platform.color}`} size={24} />
-                  <span className="font-medium text-slate-900">{platform.name}</span>
+                  <Icon className={`${platform.color}`} size={28} />
+                  <span className="font-semibold text-slate-700">{platform.name}</span>
                 </motion.div>
               );
             })}
+          </div>
+          {/* CI/CD row */}
+          <div className="flex flex-wrap justify-center items-center gap-10 md:gap-14">
+            {[
+              { name: 'Azure DevOps', logo: '/logos/azure-devops.svg' },
+              { name: 'CircleCI', logo: '/logos/circleci.svg' },
+              { name: 'Jenkins', logo: '/logos/jenkins.svg' },
+              { name: 'Travis CI', logo: '/logos/travis-ci.svg' },
+            ].map((ci, index) => (
+              <motion.div
+                key={ci.name}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: (index + 4) * 0.1 }}
+                className="flex items-center gap-3 opacity-70 hover:opacity-100 transition-opacity duration-200"
+              >
+                <img src={ci.logo} alt={ci.name} className="h-7 w-auto" />
+                <span className="font-semibold text-slate-700">{ci.name}</span>
+              </motion.div>
+            ))}
           </div>
         </motion.div>
       </div>
