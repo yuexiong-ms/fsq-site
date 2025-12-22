@@ -57,7 +57,8 @@ export const AnimatedMockup = () => {
     {
       step: 'replay',
       lines: [
-        { text: '$ uv run behave', type: 'command' },
+        { text: '# Run test', type: 'command' },
+        { text: '  $uv run behave', type: 'code' },
         { text: '    Scenario: Search in Bing ... passed', type: 'string' },
       ],
     },
