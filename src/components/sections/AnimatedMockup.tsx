@@ -12,25 +12,25 @@ export const AnimatedMockup = () => {
     {
       title: 'Record',
       icon: Video,
-      description: 'Capture real user interactions',
+      description: 'Write BDD scenarios in plain English',
       color: 'from-purple-primary to-purple-secondary',
     },
     {
       title: 'Review',
       icon: Eye,
-      description: 'AI converts to test logic',
+      description: 'AI generates step definitions via MCP',
       color: 'from-purple-secondary to-blue-accent',
     },
     {
       title: 'Replay',
       icon: Play,
-      description: 'Run tests deterministically',
+      description: 'Run tests with uv run behave',
       color: 'from-blue-accent to-purple-primary',
     },
     {
       title: 'Guard',
       icon: ShieldCheck,
-      description: 'Surface real regressions',
+      description: 'CI quality gate for every release',
       color: 'from-purple-primary to-purple-secondary',
     },
   ];
@@ -39,32 +39,34 @@ export const AnimatedMockup = () => {
     {
       step: 'record',
       lines: [
-        { text: 'fsq.record', type: 'command' },
-        { text: '  llm-engine start', type: 'code' },
-        { text: '  "open edge browser and navigate to bing home page"', type: 'string' },
+        { text: '# Write BDD Scenario', type: 'command' },
+        { text: '  Scenario: Browser Navigation', type: 'code' },
+        { text: '    Launch Edge', type: 'string' },
+        { text: '    Then navigate to Bing', type: 'string' },
       ],
     },
     {
       step: 'review',
       lines: [
-        { text: 'fsq.review', type: 'command' },
-        { text: '  case_review', type: 'code' },
+        { text: '# AI Generates Step Definitions', type: 'command' },
+        { text: '  @given("Launched Edge")', type: 'code' },
+        { text: '  def step_impl(context):', type: 'code' },
+        { text: '      browser_launch("edge")', type: 'code' },
       ],
     },
     {
       step: 'replay',
       lines: [
-        { text: 'fsq.replay', type: 'command' },
-        { text: '  browser_launch()', type: 'code' },
-        { text: '  browser_navigate("https://www.bing.com")', type: 'code' },
-        { text: '  browser_close()', type: 'code' },
+        { text: '$ uv run behave', type: 'command' },
+        { text: '    Scenario: Search in Bing ... passed', type: 'string' },
       ],
     },
     {
       step: 'guard',
       lines: [
-        { text: 'fsq.guard', type: 'command' },
-        { text: '  CI.fsq.replay == true', type: 'code' },
+        { text: '# CI Quality Gate', type: 'command' },
+        { text: '  - run: uv run behave', type: 'code' },
+        { text: '    status: all tests passed ✓', type: 'string' },
       ],
     },
   ];
@@ -152,7 +154,7 @@ export const AnimatedMockup = () => {
               <div className="w-3 h-3 rounded-full bg-red-400" />
               <div className="w-3 h-3 rounded-full bg-yellow-400" />
               <div className="w-3 h-3 rounded-full bg-green-400" />
-              <span className="ml-3 text-slate-400 text-sm font-mono">test.fsq</span>
+              <span className="ml-3 text-slate-400 text-sm font-mono">search.feature</span>
             </div>
 
             {/* Code content */}

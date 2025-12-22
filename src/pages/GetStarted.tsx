@@ -129,7 +129,7 @@ export const GetStarted = () => {
             {/* Step 1 */}
             <div className="mb-8">
               <h3 className="text-2xl font-semibold text-purple-primary mb-4">
-                🤖 1. Clone Sample case and understanding BDD
+                1. Clone Sample case and understanding BDD
               </h3>
               <div className="bg-slate-50 rounded-lg p-6">
                 <p className="text-slate-700 mb-3">1. Clone code and open this project with VS Code</p>
@@ -142,7 +142,7 @@ export const GetStarted = () => {
             {/* Step 2 */}
             <div className="mb-8">
               <h3 className="text-2xl font-semibold text-purple-primary mb-4">
-                🤖 2. Setup Win Automation MCP Server For a Project
+                2. Setup Win Automation MCP Server For a Project
               </h3>
               <div className="bg-slate-50 rounded-lg p-6">
                 <p className="font-semibold text-slate-900 mb-3">Steps:</p>
@@ -168,7 +168,7 @@ export const GetStarted = () => {
             {/* Step 3 */}
             <div className="mb-8">
               <h3 className="text-2xl font-semibold text-purple-primary mb-4">
-                🤖 3. Try a Natural Language Test
+                3. Try a Natural Language Test
               </h3>
               <p className="text-slate-700 mb-4">
                 A natural language test is definitely the perfect way to get started. Switch to agent
@@ -190,7 +190,7 @@ export const GetStarted = () => {
             {/* Step 4 */}
             <div className="mb-8">
               <h3 className="text-2xl font-semibold text-purple-primary mb-4">
-                🤖 4. AI Test Writing Flow
+                4. AI Test Writing Flow
               </h3>
 
               <div className="space-y-6">
@@ -284,7 +284,7 @@ uv run behave --name "Search in Bing"`}
             {/* Generate Testcases */}
             <div className="mb-8">
               <h3 className="text-2xl font-semibold text-purple-primary mb-4">
-                🎯 Generate Testcases with GitHub Copilot
+                Generate Testcases with GitHub Copilot
               </h3>
               <p className="text-slate-700 mb-4">
                 When you want to try out some other features, this tool — testCasePromptGenerator — can
@@ -404,37 +404,12 @@ You need to create a comprehensive BDD test suite in a single file with the foll
             {/* Generate Automation Test Scripts */}
             <div className="mb-8">
               <h3 className="text-2xl font-semibold text-purple-primary mb-4">
-                🎯 Generate Automation Test Scripts
+                Generate Automation Test Scripts
               </h3>
               <p className="text-slate-700">
                 You can follow the steps of "AI Test Write Flow" to generate automation test scripts. I
                 believe that you have successfully generated the automation test scripts before.
               </p>
-            </div>
-          </section>
-
-          {/* Known Issues */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-bold text-slate-900 mb-6">Known Issues And Submit Feedback</h2>
-            <p className="text-slate-700 mb-4">
-              Please send feedback to{' '}
-              <a
-                href="mailto:fsqgroup@microsoft.com"
-                className="text-purple-primary hover:underline"
-              >
-                fsqgroup@microsoft.com
-              </a>{' '}
-              if you have any questions.
-            </p>
-            <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded">
-              <p className="text-slate-700 font-semibold mb-2">Known issues list:</p>
-              <ul className="list-disc list-inside space-y-1 text-slate-700 ml-4">
-                <li>Don't support vertical tab now, will fix next steps</li>
-                <li>
-                  AI generates test script fails when Assert fail by design. (for example: demo
-                  downloads)
-                </li>
-              </ul>
             </div>
           </section>
         </motion.div>
