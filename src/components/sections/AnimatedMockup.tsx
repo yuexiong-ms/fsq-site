@@ -1,6 +1,6 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { Video, Eye, Play, ShieldCheck, ChevronDown } from 'lucide-react';
+import { Video, Eye, Play, ChevronDown, CircleSlash, Send, PlayCircle } from 'lucide-react';
 
 export const AnimatedMockup = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -10,69 +10,55 @@ export const AnimatedMockup = () => {
 
   const steps = [
     {
-      title: 'Record',
+      key: 'record',
       icon: Video,
-      description: 'Write BDD scenarios in natural language',
+      title: 'Record',
+      description: 'Natural-language test cases with one-click recording',
       color: 'from-purple-primary to-purple-secondary',
+      header: 'Scenario: Test msn.com website on Edge',
+      lines: [
+        { text: 'Given I have launched Edge browser', type: 'step' },
+        { text: 'When I click the search box in NTP page', type: 'step' },
+        { text: 'And I input "msn.com" in the search box', type: 'step' },
+        { text: 'And I press enter to navigate to the page', type: 'step' },
+        { text: 'And I wait for the page to load completely', type: 'step' },
+        { text: 'Then I should see the tab with the title "msn.com"', type: 'step' },
+      ],
     },
     {
-      title: 'Review',
+      key: 'review',
       icon: Eye,
-      description: 'AI generates step definitions via MCP',
+      title: 'Review',
+      description: 'Automatically generate and review executable code',
       color: 'from-purple-secondary to-blue-accent',
+      header: 'Ran preview_code_changes - appium-mcp-server',
+      lines: [
+        { text: '# --- auto-generated step ---', type: 'comment' },
+        { text: "@given('I have launched Edge browser')", type: 'decorator' },
+        { text: 'def step_impl(context):', type: 'code' },
+        { text: '    result = call_tool_sync(context,', type: 'code' },
+        { text: '        name="app_launch",', type: 'string' },
+        { text: '        arguments={...})', type: 'code' },
+        { text: '    assert result.get("status") == "success"', type: 'string' },
+      ],
     },
     {
-      title: 'Replay',
+      key: 'replay',
       icon: Play,
-      description: 'Run tests with uv run behave',
+      title: 'Replay',
+      description: 'Deterministic execution with stability and correctness',
       color: 'from-blue-accent to-purple-primary',
-    },
-    {
-      title: 'Guard',
-      icon: ShieldCheck,
-      description: 'CI quality gate for every release',
-      color: 'from-purple-primary to-purple-secondary',
-    },
-  ];
-
-  const codeBlocks = [
-    {
-      step: 'record',
+      header: 'Scenario: Test msn.com website on Edge',
       lines: [
-        { text: '# Write BDD Scenario', type: 'command' },
-        { text: '  Scenario: Browser Navigation', type: 'code' },
-        { text: '    Launch Edge', type: 'string' },
-        { text: '    Then navigate to Bing', type: 'string' },
-      ],
-    },
-    {
-      step: 'review',
-      lines: [
-        { text: '# AI Generates Step Definitions', type: 'command' },
-        { text: '  @given("Launched Edge")', type: 'code' },
-        { text: '  def step_impl(context):', type: 'code' },
-        { text: '      browser_launch("edge")', type: 'code' },
-      ],
-    },
-    {
-      step: 'replay',
-      lines: [
-        { text: '# Run test', type: 'command' },
-        { text: '  $uv run behave', type: 'code' },
-        { text: '    Scenario: Search in Bing ... passed', type: 'string' },
-      ],
-    },
-    {
-      step: 'guard',
-      lines: [
-        { text: '# CI Quality Gate', type: 'command' },
-        { text: '  - run: uv run behave', type: 'code' },
-        { text: '    status: all tests passed ✓', type: 'string' },
+        { text: 'Given I have launched Edge browser', type: 'passed' },
+        { text: 'When I click the search box in NTP page', type: 'passed' },
+        { text: 'And I input "msn.com" in the search box', type: 'passed' },
+        { text: 'And I press enter to navigate to the page', type: 'passed' },
+        { text: 'And I wait for the page to load completely', type: 'passed' },
+        { text: 'Then I should see the tab with the title "msn.com"', type: 'passed' },
       ],
     },
   ];
-
-  const stepKeywords = ['record', 'review', 'replay', 'guard'];
 
   const commandText = 'fsq run';
 
@@ -96,8 +82,8 @@ export const AnimatedMockup = () => {
 
   useEffect(() => {
     // Line progression within current step
-    const currentBlock = codeBlocks[currentStep];
-    const subLineCount = currentBlock.lines.length - 1; // exclude command line
+    const currentStepData = steps[currentStep];
+    const subLineCount = currentStepData.lines.length;
     const lineInterval = setInterval(() => {
       setCurrentLine((prev) => {
         // Stop at the last line, don't cycle back
@@ -111,7 +97,8 @@ export const AnimatedMockup = () => {
     // Step progression - duration proportional to sub-line count
     const baseDuration = 800; // base time per step
     const perLineDuration = 600; // time per sub-line
-    const stepDuration = baseDuration + subLineCount * perLineDuration;
+    const pauseAfterComplete = 1500; // extra pause after all lines shown
+    const stepDuration = baseDuration + subLineCount * perLineDuration + pauseAfterComplete;
 
     const stepTimeout = setTimeout(() => {
       setCurrentStep((prev) => (prev + 1) % steps.length);
@@ -150,70 +137,166 @@ export const AnimatedMockup = () => {
       </div>
 
       {/* Main content area */}
-      <div className="relative z-10 flex flex-col lg:flex-row gap-6">
+      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
         {/* Code editor panel */}
-        <div className="flex-1">
-          <div className="bg-slate-900 rounded-xl overflow-hidden shadow-xl">
-            {/* Editor header */}
-            <div className="flex items-center gap-2 px-4 py-3 bg-slate-800">
-              <div className="w-3 h-3 rounded-full bg-red-400" />
-              <div className="w-3 h-3 rounded-full bg-yellow-400" />
-              <div className="w-3 h-3 rounded-full bg-green-400" />
-              <span className="ml-3 text-slate-400 text-sm font-mono">search.feature</span>
+        <div className="min-w-0">
+          <div className="bg-slate-900 rounded-xl overflow-hidden shadow-xl h-full flex flex-col">
+            {/* Toolbar - always render to maintain consistent height */}
+            <div className="flex items-center gap-1 px-4 py-2 bg-slate-800 border-b border-slate-700 text-xs text-slate-400 min-h-[40px]">
+              {currentStep === 0 ? (
+                <>
+                  <CircleSlash size={14} />
+                  <span>Not Fully Automated</span>
+                  <span className="mx-1">|</span>
+                  <motion.div
+                    animate={{
+                      boxShadow: [
+                        '0 0 0 0 rgba(168, 85, 247, 0)',
+                        '0 0 0 4px rgba(168, 85, 247, 0.4)',
+                        '0 0 0 0 rgba(168, 85, 247, 0)',
+                      ],
+                    }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                    className="flex items-center gap-1 bg-purple-600 text-white px-2 py-0.5 rounded"
+                  >
+                    <Send size={12} />
+                    <span>Send to Copilot</span>
+                  </motion.div>
+                  <span className="mx-1">|</span>
+                  <PlayCircle size={14} />
+                  <span>Run</span>
+                </>
+              ) : currentStep === 1 ? (
+                <>
+                  <motion.div
+                    animate={{
+                      boxShadow: [
+                        '0 0 0 0 rgba(34, 197, 94, 0)',
+                        '0 0 0 4px rgba(34, 197, 94, 0.4)',
+                        '0 0 0 0 rgba(34, 197, 94, 0)',
+                      ],
+                    }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                    className="flex items-center gap-1 bg-green-600 text-white px-2 py-0.5 rounded"
+                  >
+                    <Eye size={12} />
+                    <span>preview_code_changes</span>
+                  </motion.div>
+                  <span className="mx-1">-</span>
+                  <span>appium-mcp-server (MCP Server)</span>
+                </>
+              ) : currentStep === 2 ? (
+                <>
+                  <CircleSlash size={14} />
+                  <span>Automated</span>
+                  <span className="mx-1">|</span>
+                  <Send size={14} />
+                  <span>Send to Copilot</span>
+                  <span className="mx-1">|</span>
+                  <motion.div
+                    animate={{
+                      boxShadow: [
+                        '0 0 0 0 rgba(34, 197, 94, 0)',
+                        '0 0 0 4px rgba(34, 197, 94, 0.4)',
+                        '0 0 0 0 rgba(34, 197, 94, 0)',
+                      ],
+                    }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                    className="flex items-center gap-1 bg-green-600 text-white px-2 py-0.5 rounded"
+                  >
+                    <PlayCircle size={12} />
+                    <span>Run</span>
+                  </motion.div>
+                </>
+              ) : (
+                <>
+                  <PlayCircle size={14} />
+                  <span>{steps[currentStep].header}</span>
+                </>
+              )}
             </div>
 
-            {/* Code content */}
-            <div className="p-4 font-mono text-sm leading-relaxed">
-              {codeBlocks.map((block, blockIndex) => {
-                const isCurrentBlock = block.step === stepKeywords[currentStep];
-                return (
-                  <div
-                    key={block.step}
-                    className={`transition-all duration-300 ${blockIndex > 0 ? 'mt-3' : ''} ${
-                      isCurrentBlock ? 'bg-purple-500/20 -mx-4 px-4 py-2 border-l-2 border-purple-400' : 'py-1'
-                    }`}
-                  >
-                    {block.lines.map((line, lineIndex) => {
-                      const isSubLine = lineIndex > 0;
-                      const subLineIndex = lineIndex - 1;
-                      const isCurrentSubLine = isCurrentBlock && isSubLine && subLineIndex === currentLine;
+            {/* Code content - single page per step */}
+            <div className="p-4 font-mono text-sm leading-relaxed flex-1 min-h-[280px]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentStep}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {/* Header line - show for Record and Replay steps with scenario header */}
+                  {(steps[currentStep].key === 'record' || steps[currentStep].key === 'replay') && (
+                    <div className="flex items-start mb-1">
+                      <span className="text-red-500 mr-2">|</span>
+                      <span className="text-orange-400 font-semibold">{steps[currentStep].header}</span>
+                    </div>
+                  )}
 
-                      return (
-                        <div key={lineIndex} className="whitespace-pre">
-                          {line.type === 'command' ? (
-                            <span className={isCurrentBlock ? 'text-white font-semibold' : 'text-purple-400'}>{line.text}</span>
-                          ) : line.type === 'string' ? (
-                            <span className={isCurrentSubLine ? 'text-green-300 font-semibold' : 'text-green-400'}>
-                              {isCurrentSubLine ? '> ' + line.text.substring(2) : line.text}
+                  {/* Content lines */}
+                  {steps[currentStep].lines.map((line: { text: string; type: string }, lineIndex: number) => {
+                    const isCurrentLine = lineIndex === currentLine;
+                    const isVisibleLine = lineIndex <= currentLine;
+
+                    return (
+                      <motion.div
+                        key={lineIndex}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{
+                          opacity: isVisibleLine ? 1 : 0,
+                          y: isVisibleLine ? 0 : 10,
+                        }}
+                        transition={{ duration: 0.3 }}
+                        className="whitespace-pre"
+                      >
+                        {line.type === 'step' ? (
+                          // Step with X marker (not automated)
+                          <div className="flex items-start">
+                            <span className="text-yellow-500 font-bold mr-2">X</span>
+                            <span className={isCurrentLine ? 'text-white font-semibold' : 'text-slate-300'}>
+                              {line.text}
                             </span>
-                          ) : (
-                            <span className={isCurrentSubLine ? 'text-white font-semibold' : 'text-slate-300'}>
-                              {isCurrentSubLine ? '> ' + line.text.substring(2) : line.text}
+                          </div>
+                        ) : line.type === 'passed' ? (
+                          // Passed step with green checkmark
+                          <div className="flex items-start">
+                            <span className="text-green-500 font-bold mr-2">&#10003;</span>
+                            <span className={isCurrentLine ? 'text-white font-semibold' : 'text-slate-300'}>
+                              {line.text}
                             </span>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                );
-              })}
+                          </div>
+                        ) : line.type === 'comment' ? (
+                          <span className="text-slate-500">{line.text}</span>
+                        ) : line.type === 'decorator' ? (
+                          <span className="text-yellow-400">{line.text}</span>
+                        ) : line.type === 'string' ? (
+                          <span className="text-green-400">{line.text}</span>
+                        ) : (
+                          <span className="text-slate-300">{line.text}</span>
+                        )}
+                      </motion.div>
+                    );
+                  })}
+                </motion.div>
+              </AnimatePresence>
             </div>
           </div>
         </div>
 
         {/* Steps visualization */}
-        <div className="flex-1 flex flex-col justify-center gap-2">
+        <div className="min-w-0 flex flex-col justify-center gap-2">
           {steps.map((step, index) => {
             const Icon = step.icon;
             const isActive = index === currentStep;
             const isPast = index < currentStep;
             // Check if current step is done (on last sub-line)
-            const currentBlock = codeBlocks[currentStep];
-            const subLineCount = currentBlock.lines.length - 1;
+            const currentStepData = steps[currentStep];
+            const subLineCount = currentStepData.lines.length;
             const isCurrentStepDone = isActive && currentLine >= subLineCount - 1;
 
             return (
-              <div key={step.title}>
+              <div key={step.key}>
                 <motion.div
                   animate={{
                     scale: isActive ? 1.02 : 1,
