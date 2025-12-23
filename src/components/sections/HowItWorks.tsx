@@ -1,8 +1,20 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Play } from 'lucide-react';
 import { AnimatedMockup } from './AnimatedMockup';
+import { Button } from '../common/Button';
+import { VideoModal } from '../common/VideoModal';
 
 export const HowItWorks = () => {
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
+
   return (
+    <>
+      <VideoModal
+        isOpen={isVideoOpen}
+        onClose={() => setIsVideoOpen(false)}
+        videoUrl="https://edgequality.blob.core.windows.net/video/FSQ.mp4?sp=r&st=2025-12-18T08:51:32Z&se=2030-06-30T17:06:32Z&sv=2024-11-04&sr=b&sig=rNJpjz9nhT8PpLZzw3Q1FpUS0La1zNRWyuM0mvuTOds%3D"
+      />
     <section id="how-it-works" className="py-24 bg-gradient-to-b from-primary-bg to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
@@ -46,7 +58,26 @@ export const HowItWorks = () => {
         >
           <AnimatedMockup />
         </motion.div>
+
+        {/* Watch Demo Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="flex justify-center mt-12"
+        >
+          <Button
+            size="lg"
+            variant="outline"
+            className="gap-2"
+            onClick={() => setIsVideoOpen(true)}
+          >
+            <Play size={20} /> Watch Demo
+          </Button>
+        </motion.div>
       </div>
     </section>
+    </>
   );
 };

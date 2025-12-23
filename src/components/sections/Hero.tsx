@@ -1,20 +1,7 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { ArrowRight, Play } from 'lucide-react';
-import { Button } from '../common/Button';
-import { VideoModal } from '../common/VideoModal';
 
 export const Hero = () => {
-  const [isVideoOpen, setIsVideoOpen] = useState(false);
-
   return (
-    <>
-      <VideoModal
-        isOpen={isVideoOpen}
-        onClose={() => setIsVideoOpen(false)}
-        videoUrl="https://edgequality.blob.core.windows.net/video/FSQ.mp4?sp=r&st=2025-12-18T08:51:32Z&se=2030-06-30T17:06:32Z&sv=2024-11-04&sr=b&sig=rNJpjz9nhT8PpLZzw3Q1FpUS0La1zNRWyuM0mvuTOds%3D"
-      />
     <section id="hero" className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-bg via-white to-primary-bg overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
@@ -79,51 +66,35 @@ export const Hero = () => {
               FSQ records real user actions and replays them reliably—so teams ship faster with confidence.
             </motion.p>
 
-            {/* CTA Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7, duration: 0.8 }}
-              className="flex flex-col sm:flex-row gap-4 mb-12 justify-center"
-            >
-              <Link to="/get-started">
-                <Button size="lg" className="gap-2">
-                  Get Started <ArrowRight size={20} />
-                </Button>
-              </Link>
-              <Button
-                size="lg"
-                variant="outline"
-                className="gap-2"
-                onClick={() => setIsVideoOpen(true)}
-              >
-                <Play size={20} /> Watch Demo
-              </Button>
-            </motion.div>
-
             {/* Stats Preview */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.9, duration: 0.8 }}
-              className="grid grid-cols-2 gap-6 max-w-md mx-auto"
+              className="space-y-4"
             >
-              {[
-                { value: '1,080,000', label: 'Test Steps' },
-                { value: '1497', label: 'Hours Saved' },
-              ].map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 1 + index * 0.1 }}
-                >
-                  <div className="text-3xl font-bold bg-gradient-to-r from-purple-primary to-purple-secondary bg-clip-text text-transparent mb-1">
-                    {stat.value}
-                  </div>
-                  <div className="text-slate-600 text-sm font-medium">{stat.label}</div>
-                </motion.div>
-              ))}
+              <div className="text-sm text-slate-500 font-medium uppercase tracking-wide">
+                Weekly Impact
+              </div>
+              <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto">
+                {[
+                  { value: '400K+', label: 'Test Steps' },
+                  { value: '600+', label: 'Hours Saved' },
+                  { value: '12+', label: 'Testers Reduced' },
+                ].map((stat, index) => (
+                  <motion.div
+                    key={stat.label}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 1 + index * 0.1 }}
+                  >
+                    <div className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-purple-primary to-purple-secondary bg-clip-text text-transparent mb-2">
+                      {stat.value}
+                    </div>
+                    <div className="text-slate-600 text-base font-medium">{stat.label}</div>
+                  </motion.div>
+                ))}
+              </div>
             </motion.div>
           </motion.div>
         </div>
@@ -144,6 +115,5 @@ export const Hero = () => {
         </div>
       </motion.div>
     </section>
-    </>
   );
 };

@@ -13,7 +13,7 @@ export const Features = () => {
     {
       icon: Puzzle,
       title: 'Make testing accessible',
-      description: 'Any engineer can record, review, and run tests in plain English—no deep framework expertise or long training required.',
+      description: 'Any engineer can record, review, and run tests in natural language—no deep framework expertise or long training required.',
       gradient: 'from-purple-secondary to-blue-accent',
     },
     {
@@ -43,7 +43,7 @@ export const Features = () => {
   ];
 
   return (
-    <section id="features" className="py-24 bg-gradient-to-b from-white to-primary-bg">
+    <section id="highlights" className="py-24 bg-gradient-to-b from-white to-primary-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -59,7 +59,7 @@ export const Features = () => {
             className="inline-flex items-center px-4 py-2 mb-6 bg-purple-50 rounded-full"
           >
             <span className="text-purple-primary font-semibold text-sm">
-              FEATURES
+              HIGHLIGHTS
             </span>
           </motion.div>
 

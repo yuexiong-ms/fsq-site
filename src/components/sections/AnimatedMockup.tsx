@@ -12,7 +12,7 @@ export const AnimatedMockup = () => {
     {
       title: 'Record',
       icon: Video,
-      description: 'Write BDD scenarios in plain English',
+      description: 'Write BDD scenarios in natural language',
       color: 'from-purple-primary to-purple-secondary',
     },
     {

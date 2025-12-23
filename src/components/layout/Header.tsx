@@ -11,7 +11,7 @@ export const Header = () => {
 
   const navLinks = [
     { name: 'Home', href: '#hero' },
-    { name: 'Features', href: '#features' },
+    { name: 'Highlights', href: '#highlights' },
     { name: 'How', href: '#how-it-works' },
     { name: 'Impact', href: '#impact' },
     { name: 'Extension', href: '#extension' },
