@@ -10,13 +10,17 @@ export const AnimatedMockup = () => {
 
   const steps = [
     {
-      key: 'record',
       icon: Video,
       title: 'Record',
       description: 'Natural-language test cases with one-click recording',
       color: 'from-purple-primary to-purple-secondary',
-      header: 'Scenario: Test msn.com website on Edge',
+      toolbar: [
+        { icon: CircleSlash, text: 'Not Fully Automated', type: 'text' },
+        { icon: Send, text: 'Send to Copilot', type: 'button', bgColor: 'bg-purple-600', glowColor: 'rgba(168, 85, 247, 0.4)' },
+        { icon: PlayCircle, text: 'Run', type: 'text' },
+      ],
       lines: [
+        { text: 'Scenario: Test msn.com website on Edge', type: 'title' },
         { text: 'Given I have launched Edge browser', type: 'step' },
         { text: 'When I click the search box in NTP page', type: 'step' },
         { text: 'And I input "msn.com" in the search box', type: 'step' },
@@ -26,12 +30,14 @@ export const AnimatedMockup = () => {
       ],
     },
     {
-      key: 'review',
       icon: Eye,
       title: 'Review',
       description: 'Automatically generate and review executable code',
       color: 'from-purple-secondary to-blue-accent',
-      header: 'Ran preview_code_changes - appium-mcp-server',
+      toolbar: [
+        { icon: Eye, text: 'preview_code_changes', type: 'button', bgColor: 'bg-green-600', glowColor: 'rgba(34, 197, 94, 0.4)' },
+        { text: 'appium-mcp-server (MCP Server)', type: 'text' },
+      ],
       lines: [
         { text: '# --- auto-generated step ---', type: 'comment' },
         { text: "@given('I have launched Edge browser')", type: 'decorator' },
@@ -43,13 +49,17 @@ export const AnimatedMockup = () => {
       ],
     },
     {
-      key: 'replay',
       icon: Play,
       title: 'Replay',
       description: 'Deterministic execution with stability and correctness',
       color: 'from-blue-accent to-purple-primary',
-      header: 'Scenario: Test msn.com website on Edge',
+      toolbar: [
+        { icon: CircleSlash, text: 'Automated', type: 'text' },
+        { icon: Send, text: 'Send to Copilot', type: 'text' },
+        { icon: PlayCircle, text: 'Run', type: 'button', bgColor: 'bg-green-600', glowColor: 'rgba(34, 197, 94, 0.4)' },
+      ],
       lines: [
+        { text: 'Scenario: Test msn.com website on Edge', type: 'title' },
         { text: 'Given I have launched Edge browser', type: 'passed' },
         { text: 'When I click the search box in NTP page', type: 'passed' },
         { text: 'And I input "msn.com" in the search box', type: 'passed' },
@@ -143,77 +153,38 @@ export const AnimatedMockup = () => {
           <div className="bg-slate-900 rounded-xl overflow-hidden shadow-xl h-full flex flex-col">
             {/* Toolbar - always render to maintain consistent height */}
             <div className="flex items-center gap-1 px-4 py-2 bg-slate-800 border-b border-slate-700 text-xs text-slate-400 min-h-[40px]">
-              {currentStep === 0 ? (
-                <>
-                  <CircleSlash size={14} />
-                  <span>Not Fully Automated</span>
-                  <span className="mx-1">|</span>
-                  <motion.div
-                    animate={{
-                      boxShadow: [
-                        '0 0 0 0 rgba(168, 85, 247, 0)',
-                        '0 0 0 4px rgba(168, 85, 247, 0.4)',
-                        '0 0 0 0 rgba(168, 85, 247, 0)',
-                      ],
-                    }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                    className="flex items-center gap-1 bg-purple-600 text-white px-2 py-0.5 rounded"
-                  >
-                    <Send size={12} />
-                    <span>Send to Copilot</span>
-                  </motion.div>
-                  <span className="mx-1">|</span>
-                  <PlayCircle size={14} />
-                  <span>Run</span>
-                </>
-              ) : currentStep === 1 ? (
-                <>
-                  <motion.div
-                    animate={{
-                      boxShadow: [
-                        '0 0 0 0 rgba(34, 197, 94, 0)',
-                        '0 0 0 4px rgba(34, 197, 94, 0.4)',
-                        '0 0 0 0 rgba(34, 197, 94, 0)',
-                      ],
-                    }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                    className="flex items-center gap-1 bg-green-600 text-white px-2 py-0.5 rounded"
-                  >
-                    <Eye size={12} />
-                    <span>preview_code_changes</span>
-                  </motion.div>
-                  <span className="mx-1">-</span>
-                  <span>appium-mcp-server (MCP Server)</span>
-                </>
-              ) : currentStep === 2 ? (
-                <>
-                  <CircleSlash size={14} />
-                  <span>Automated</span>
-                  <span className="mx-1">|</span>
-                  <Send size={14} />
-                  <span>Send to Copilot</span>
-                  <span className="mx-1">|</span>
-                  <motion.div
-                    animate={{
-                      boxShadow: [
-                        '0 0 0 0 rgba(34, 197, 94, 0)',
-                        '0 0 0 4px rgba(34, 197, 94, 0.4)',
-                        '0 0 0 0 rgba(34, 197, 94, 0)',
-                      ],
-                    }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                    className="flex items-center gap-1 bg-green-600 text-white px-2 py-0.5 rounded"
-                  >
-                    <PlayCircle size={12} />
-                    <span>Run</span>
-                  </motion.div>
-                </>
-              ) : (
-                <>
-                  <PlayCircle size={14} />
-                  <span>{steps[currentStep].header}</span>
-                </>
-              )}
+              {steps[currentStep].toolbar.map((item, idx) => {
+                const ItemIcon = 'icon' in item ? item.icon : null;
+                const isButton = item.type === 'button';
+                const showSeparator = idx > 0;
+
+                return (
+                  <span key={idx} className="flex items-center gap-1">
+                    {showSeparator && <span className="mx-1">|</span>}
+                    {isButton ? (
+                      <motion.div
+                        animate={{
+                          boxShadow: [
+                            `0 0 0 0 ${'glowColor' in item && item.glowColor ? item.glowColor.replace('0.4', '0') : 'transparent'}`,
+                            `0 0 0 4px ${'glowColor' in item && item.glowColor ? item.glowColor : 'transparent'}`,
+                            `0 0 0 0 ${'glowColor' in item && item.glowColor ? item.glowColor.replace('0.4', '0') : 'transparent'}`,
+                          ],
+                        }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                        className={`flex items-center gap-1 ${'bgColor' in item && item.bgColor ? item.bgColor : 'bg-slate-600'} text-white px-2 py-0.5 rounded`}
+                      >
+                        {ItemIcon && <ItemIcon size={12} />}
+                        <span>{item.text}</span>
+                      </motion.div>
+                    ) : (
+                      <>
+                        {ItemIcon && <ItemIcon size={14} />}
+                        <span>{item.text}</span>
+                      </>
+                    )}
+                  </span>
+                );
+              })}
             </div>
 
             {/* Code content - single page per step */}
@@ -226,14 +197,6 @@ export const AnimatedMockup = () => {
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.3 }}
                 >
-                  {/* Header line - show for Record and Replay steps with scenario header */}
-                  {(steps[currentStep].key === 'record' || steps[currentStep].key === 'replay') && (
-                    <div className="flex items-start mb-1">
-                      <span className="text-red-500 mr-2">|</span>
-                      <span className="text-orange-400 font-semibold">{steps[currentStep].header}</span>
-                    </div>
-                  )}
-
                   {/* Content lines */}
                   {steps[currentStep].lines.map((line: { text: string; type: string }, lineIndex: number) => {
                     const isCurrentLine = lineIndex === currentLine;
@@ -250,7 +213,13 @@ export const AnimatedMockup = () => {
                         transition={{ duration: 0.3 }}
                         className="whitespace-pre"
                       >
-                        {line.type === 'step' ? (
+                        {line.type === 'title' ? (
+                          // Title line with red marker
+                          <div className="flex items-start mb-1">
+                            <span className="text-red-500 mr-2">|</span>
+                            <span className="text-orange-400 font-semibold">{line.text}</span>
+                          </div>
+                        ) : line.type === 'step' ? (
                           // Step with X marker (not automated)
                           <div className="flex items-start">
                             <span className="text-yellow-500 font-bold mr-2">X</span>
@@ -296,7 +265,7 @@ export const AnimatedMockup = () => {
             const isCurrentStepDone = isActive && currentLine >= subLineCount - 1;
 
             return (
-              <div key={step.key}>
+              <div key={index}>
                 <motion.div
                   animate={{
                     scale: isActive ? 1.02 : 1,
