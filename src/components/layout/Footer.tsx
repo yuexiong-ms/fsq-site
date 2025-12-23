@@ -2,7 +2,7 @@ import { Mail } from 'lucide-react';
 
 export const Footer = () => {
   const socialLinks = [
-    { icon: Mail, href: 'fsqgroup@microsoft.com', label: 'Email' },
+    { icon: Mail, href: 'mailto:fsqgroup@microsoft.com', label: 'Email' },
   ];
 
   return (
