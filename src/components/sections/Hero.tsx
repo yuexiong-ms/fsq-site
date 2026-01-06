@@ -74,13 +74,12 @@ export const Hero = () => {
               className="space-y-4"
             >
               <div className="text-sm text-slate-500 font-medium uppercase tracking-wide">
-                Weekly Impact
+                Contribution
               </div>
-              <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto">
+              <div className="grid grid-cols-2 gap-8 max-w-xl mx-auto">
                 {[
-                  { value: '400K+', label: 'Test Steps' },
-                  { value: '600+', label: 'Hours Saved' },
-                  { value: '12+', label: 'Testers Reduced' },
+                  { value: '1,690,000‌', label: 'Test Steps' },
+                  { value: '2342', label: 'Hours Saved' },
                 ].map((stat, index) => (
                   <motion.div
                     key={stat.label}
