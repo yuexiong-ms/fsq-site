@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
-import { PlatformTabs, PlatformContent, type Platform } from '../components/common/PlatformTabs';
+import { useState } from 'react';
+
+type Platform = 'windows' | 'macos' | 'mobile';
 
 // Code block component for consistent styling
 const CodeBlock = ({ children, className = '' }: { children: string; className?: string }) => (
@@ -47,55 +49,50 @@ const InfoBox = ({
   );
 };
 
-// Prerequisites content per platform
-const PrerequisitesContent = ({ platform }: { platform: Platform }) => {
-  const prerequisites = {
-    windows: [
-      'Python 3.10 or higher',
-      'Windows operating system',
-      'uv package manager (recommended)',
-      'VS Code or Cursor',
-    ],
-    macos: [
-      'macOS 10.15+ (macOS 12+ recommended)',
-      'Python 3.10 or higher',
-      'Node.js 16+',
-      'Xcode Command Line Tools',
-      'VS Code or Cursor',
-    ],
-    mobile: [
-      'Python 3.10 or higher',
-      'VS Code or Cursor',
-      'BrowserStack account (free trial available)',
-    ],
-  };
+// Windows Platform Content
+const WindowsContent = () => (
+  <div className="space-y-12">
+    {/* Prerequisites */}
+    <section>
+      <h3 className="text-2xl font-bold text-slate-900 mb-4">Prerequisites</h3>
+      <div className="bg-slate-50 rounded-lg p-6">
+        <ul className="list-disc list-inside space-y-2 text-slate-700">
+          <li>Python 3.10 or higher</li>
+          <li>Windows operating system</li>
+          <li>uv package manager (recommended)</li>
+          <li>VS Code or Cursor</li>
+        </ul>
+      </div>
+    </section>
 
-  return (
-    <div className="bg-slate-50 rounded-lg p-6">
-      <ul className="list-disc list-inside space-y-2 text-slate-700">
-        {prerequisites[platform].map((item, index) => (
-          <li key={index}>{item}</li>
-        ))}
-      </ul>
-    </div>
-  );
-};
+    {/* Installation */}
+    <section>
+      <h3 className="text-2xl font-bold text-slate-900 mb-4">Installation</h3>
+      <Step number={1} title="Clone the Repository">
+        <CodeBlock>{`git clone https://github.com/ai-microsoft/AutoGenesis.git
+cd AutoGenesis`}</CodeBlock>
+      </Step>
 
-// Automation setup content per platform
-const AutomationSetupContent = ({ platform }: { platform: Platform }) => {
-  if (platform === 'windows') {
-    return (
-      <div className="space-y-4">
-        <p className="text-slate-700">
-          Windows automation uses <strong>PyWinauto</strong> - no Appium installation required.
-        </p>
-        <div className="bg-slate-50 rounded-lg p-6">
-          <p className="font-semibold text-slate-900 mb-3">Configure your application:</p>
-          <p className="text-slate-700 mb-3">
-            Edit <code className="bg-slate-200 px-2 py-1 rounded">conf/pywinauto_conf.json</code>:
+      <Step number={2} title="Install Dependencies">
+        <CodeBlock>{`pip install -r requirements.txt`}</CodeBlock>
+      </Step>
+    </section>
+
+    {/* Configuration */}
+    <section>
+      <h3 className="text-2xl font-bold text-slate-900 mb-4">Configuration</h3>
+      <Step number={1} title="Configure PyWinauto">
+        <div className="space-y-4">
+          <p className="text-slate-700">
+            Windows automation uses <strong>PyWinauto</strong> - no Appium installation required.
           </p>
-          <CodeBlock>
-            {`{
+          <div className="bg-slate-50 rounded-lg p-6">
+            <p className="font-semibold text-slate-900 mb-3">Configure your application:</p>
+            <p className="text-slate-700 mb-3">
+              Edit <code className="bg-slate-200 px-2 py-1 rounded">conf/pywinauto_conf.json</code>:
+            </p>
+            <CodeBlock>
+              {`{
   "PYWINAUTO_CONFIG": {
     "app_name": "Your Application Name",
     "exe": "C:\\\\Path\\\\To\\\\Your\\\\App.exe",
@@ -103,62 +100,196 @@ const AutomationSetupContent = ({ platform }: { platform: Platform }) => {
     "launch_args": ["--arg1", "--arg2"]
   }
 }`}
+            </CodeBlock>
+            <ul className="list-disc list-inside space-y-1 text-slate-600 mt-4 text-sm">
+              <li><strong>exe</strong>: Full path to the application executable</li>
+              <li><strong>window_title_re</strong>: Regex pattern to match the window title</li>
+              <li><strong>launch_args</strong>: (Optional) Command-line arguments</li>
+            </ul>
+          </div>
+        </div>
+      </Step>
+
+      <Step number={2} title="Start MCP Server">
+        <div className="bg-slate-50 rounded-lg p-6">
+          <p className="text-slate-700 mb-3">Start the MCP server:</p>
+          <CodeBlock>{`python simple_server.py --transport sse`}</CodeBlock>
+          <p className="text-slate-600 mt-3 text-sm">
+            This starts the PyWinauto MCP server on port 8000.
+          </p>
+        </div>
+      </Step>
+
+      <Step number={3} title="Configure VS Code">
+        <div className="space-y-4">
+          <p className="text-slate-700">
+            Add the following to your <code className="bg-slate-200 px-2 py-1 rounded">.vscode/settings.json</code>:
+          </p>
+          <CodeBlock>
+            {`{
+  "github.copilot.chat.mcp.servers": {
+    "pywinauto": {
+      "command": "python",
+      "args": [
+        "C:\\\\Users\\\\<username>\\\\projects\\\\AutoGenesis\\\\pywinauto-mcp-server\\\\simple_server.py",
+        "--transport",
+        "stdio"
+      ]
+    }
+  }
+}`}
           </CodeBlock>
-          <ul className="list-disc list-inside space-y-1 text-slate-600 mt-4 text-sm">
-            <li>
-              <strong>exe</strong>: Full path to the application executable
-            </li>
-            <li>
-              <strong>window_title_re</strong>: Regex pattern to match the window title
-            </li>
-            <li>
-              <strong>launch_args</strong>: (Optional) Command-line arguments
-            </li>
+          <p className="text-slate-600 text-sm">
+            Replace the path with your actual project location. For Cursor, add to{' '}
+            <code className="bg-slate-200 px-2 py-1 rounded">mcpServers</code> in Cursor settings.
+          </p>
+        </div>
+      </Step>
+    </section>
+
+    {/* Usage */}
+    <section>
+      <h3 className="text-2xl font-bold text-slate-900 mb-4">Usage</h3>
+      <Step number={1} title="Write Test Cases">
+        <p className="text-slate-700 mb-4">
+          Write BDD test cases in Gherkin format. The project includes sample test cases in{' '}
+          <code className="bg-slate-200 px-2 py-1 rounded">behave-demo/features/</code> directory.
+        </p>
+      </Step>
+
+      <Step number={2} title="Generate Test Code with AI">
+        <p className="text-slate-700 mb-4">
+          Switch to Agent mode in Copilot Chat and send a prompt with your test scenario:
+        </p>
+        <div className="bg-slate-50 rounded-lg p-6">
+          <pre className="text-sm text-slate-700 whitespace-pre-wrap">
+            {`Scenario: Download PDF file
+Given Edge is launched
+When I navigate to "https://getsamplefiles.com/download/pdf/sample-1.pdf"
+Then the Downloads pane should appear
+When I navigate to "edge://downloads"
+Then "sample-1.pdf" should appear in download list
+
+Please use win-auto-mcp to execute the following instructions:
+Requirements:
+1. Before executing the first step, call before_gen_code, and after all steps are completed, sequentially call preview_code_changes and confirm_code_change.
+2. Execute each step exactly as written, in order.
+3. Do not modify, merge, skip, or add any step.
+4. Use only win-auto-mcp API calls.`}
+          </pre>
+        </div>
+        <p className="text-slate-600 mt-4 text-sm">
+          AI will call MCP tools to automatically generate step definition code.
+        </p>
+      </Step>
+
+      <Step number={3} title="Run Tests">
+        <div className="bg-slate-50 rounded-lg p-6">
+          <p className="text-slate-700 mb-3">Run a specific test scenario:</p>
+          <CodeBlock>{`behave --name "Scenario Name"`}</CodeBlock>
+
+          <p className="text-slate-700 mt-6 mb-3">More options:</p>
+          <CodeBlock>
+            {`# Generate JSON report
+behave --format json -o reports/results.json
+
+# Filter using tags
+behave --tags=@smoke
+
+# Verbose output
+behave -v`}
+          </CodeBlock>
+        </div>
+      </Step>
+    </section>
+
+    {/* Troubleshooting */}
+    <section>
+      <h3 className="text-2xl font-bold text-slate-900 mb-4">Troubleshooting</h3>
+      <div className="space-y-4">
+        <div className="bg-slate-50 rounded-lg p-6">
+          <h4 className="font-semibold text-slate-900 mb-2">MCP Server Cannot Start</h4>
+          <p className="text-slate-700">
+            Check Python version is 3.10+ with <code>python --version</code>. Review logs in{' '}
+            <code>logs/mcp_server.log</code>.
+          </p>
+        </div>
+
+        <div className="bg-slate-50 rounded-lg p-6">
+          <h4 className="font-semibold text-slate-900 mb-2">Cannot Find Element</h4>
+          <ul className="list-disc list-inside space-y-1 text-slate-700">
+            <li>Ensure the target application is open and active</li>
+            <li>Some applications may require administrator privileges</li>
+            <li>Verify element's title and control_type are correct</li>
+          </ul>
+        </div>
+
+        <div className="bg-slate-50 rounded-lg p-6">
+          <h4 className="font-semibold text-slate-900 mb-2">AI Client Cannot Recognize MCP Tools</h4>
+          <ul className="list-disc list-inside space-y-1 text-slate-700">
+            <li>Restart VS Code or Cursor</li>
+            <li>Verify MCP configuration path is correct</li>
+            <li>Confirm MCP Server has started successfully</li>
           </ul>
         </div>
       </div>
-    );
-  }
+    </section>
+  </div>
+);
 
-  if (platform === 'macos') {
-    return (
-      <div className="space-y-4">
-        <p className="text-slate-700">
-          macOS automation uses <strong>Appium with Mac2 driver</strong>.
-        </p>
+// macOS Platform Content
+const MacOSContent = () => (
+  <div className="space-y-12">
+    {/* Prerequisites */}
+    <section>
+      <h3 className="text-2xl font-bold text-slate-900 mb-4">Prerequisites</h3>
+      <div className="bg-slate-50 rounded-lg p-6">
+        <ul className="list-disc list-inside space-y-2 text-slate-700">
+          <li>macOS 10.15+ (macOS 12+ recommended)</li>
+          <li>Python 3.10 or higher</li>
+          <li>Node.js 16+</li>
+          <li>Xcode Command Line Tools</li>
+          <li>VS Code or Cursor</li>
+        </ul>
+      </div>
+    </section>
 
-        {/* Install Appium */}
+    {/* Installation */}
+    <section>
+      <h3 className="text-2xl font-bold text-slate-900 mb-4">Installation</h3>
+      <Step number={1} title="Clone the Repository">
+        <CodeBlock>{`git clone https://github.com/ai-microsoft/AutoGenesis.git
+cd AutoGenesis`}</CodeBlock>
+      </Step>
+
+      <Step number={2} title="Install Dependencies">
+        <CodeBlock>{`pip install -r requirements.txt`}</CodeBlock>
+      </Step>
+
+      <Step number={3} title="Install Appium and Mac2 Driver">
+        <CodeBlock>{`npm install -g appium
+appium driver install mac2`}</CodeBlock>
+      </Step>
+    </section>
+
+    {/* Configuration */}
+    <section>
+      <h3 className="text-2xl font-bold text-slate-900 mb-4">Configuration</h3>
+      <Step number={1} title="Configure System Permissions">
         <div className="bg-slate-50 rounded-lg p-6">
-          <p className="font-semibold text-slate-900 mb-3">Install Appium and Mac2 Driver:</p>
-          <CodeBlock>
-            {`npm install -g appium
-appium driver install mac2`}
-          </CodeBlock>
-        </div>
-
-        {/* System Permissions */}
-        <div className="bg-slate-50 rounded-lg p-6">
-          <p className="font-semibold text-slate-900 mb-3">Configure System Permissions:</p>
+          <p className="font-semibold text-slate-900 mb-3">Grant Accessibility Permission:</p>
           <ol className="list-decimal list-inside space-y-2 text-slate-700">
-            <li>
-              Open <strong>System Settings</strong> → <strong>Privacy & Security</strong> →{' '}
-              <strong>Accessibility</strong>
-            </li>
-            <li>
-              Click <strong>+</strong> and add Terminal and VS Code
-            </li>
-            <li>
-              (Optional) Enable <strong>Screen Recording</strong> permission for the same apps
-            </li>
+            <li>Open <strong>System Settings</strong> → <strong>Privacy & Security</strong> → <strong>Accessibility</strong></li>
+            <li>Click <strong>+</strong> and add Terminal and VS Code</li>
+            <li>(Optional) Enable <strong>Screen Recording</strong> permission for the same apps</li>
           </ol>
         </div>
+      </Step>
 
-        {/* Configuration */}
-        <div className="bg-slate-50 rounded-lg p-6">
-          <p className="font-semibold text-slate-900 mb-3">Configure your application:</p>
+      <Step number={2} title="Configure Appium">
+        <div className="space-y-4">
           <p className="text-slate-700 mb-3">
-            Edit <code className="bg-slate-200 px-2 py-1 rounded">conf/appium_conf.json</code> (mac
-            section):
+            Edit <code className="bg-slate-200 px-2 py-1 rounded">conf/appium_conf.json</code> (mac section):
           </p>
           <CodeBlock>
             {`{
@@ -173,51 +304,203 @@ appium driver install mac2`}
 }`}
           </CodeBlock>
           <p className="text-slate-600 mt-3 text-sm">
-            <strong>bundleId</strong>: The bundle identifier of your macOS application (e.g.,
-            com.apple.calculator)
+            <strong>bundleId</strong>: The bundle identifier of your macOS application (e.g., com.apple.calculator)
           </p>
         </div>
-      </div>
-    );
+      </Step>
+
+      <Step number={3} title="Start Appium Server">
+        <div className="bg-slate-50 rounded-lg p-6">
+          <p className="text-slate-700 mb-3">Start the Appium server (keep this terminal open):</p>
+          <CodeBlock>{`appium server --port 4723`}</CodeBlock>
+        </div>
+      </Step>
+
+      <Step number={4} title="Start MCP Server">
+        <div className="bg-slate-50 rounded-lg p-6">
+          <p className="text-slate-700 mb-3">In a new terminal, start the MCP server:</p>
+          <CodeBlock>
+            {`cd appium-mcp-server
+python simple_server.py --platform mac`}
+          </CodeBlock>
+        </div>
+      </Step>
+
+      <Step number={5} title="Configure VS Code">
+        <div className="space-y-4">
+          <p className="text-slate-700">
+            Add the following to your <code className="bg-slate-200 px-2 py-1 rounded">.vscode/settings.json</code>:
+          </p>
+          <CodeBlock>
+            {`{
+  "github.copilot.chat.mcp.servers": {
+    "appium-mcp-mac": {
+      "command": "python",
+      "args": [
+        "/Users/<username>/projects/AutoGenesis/appium-mcp-server/simple_server.py",
+        "--platform",
+        "mac"
+      ]
+    }
   }
+}`}
+          </CodeBlock>
+          <p className="text-slate-600 text-sm">
+            Replace the path with your actual project location. For Cursor, add to{' '}
+            <code className="bg-slate-200 px-2 py-1 rounded">mcpServers</code> in Cursor settings.
+          </p>
+        </div>
+      </Step>
+    </section>
 
-  // Mobile
-  return (
-    <div className="space-y-4">
-      <p className="text-slate-700">
-        Mobile automation uses <strong>BrowserStack</strong> cloud testing - no local Appium
-        installation required.
-      </p>
+    {/* Usage */}
+    <section>
+      <h3 className="text-2xl font-bold text-slate-900 mb-4">Usage</h3>
+      <Step number={1} title="Write Test Cases">
+        <p className="text-slate-700 mb-4">
+          Write BDD test cases in Gherkin format. The project includes sample test cases in{' '}
+          <code className="bg-slate-200 px-2 py-1 rounded">behave-demo/features/</code> directory.
+        </p>
+      </Step>
 
-      {/* Register BrowserStack */}
-      <div className="bg-slate-50 rounded-lg p-6">
-        <p className="font-semibold text-slate-900 mb-3">1. Register for BrowserStack:</p>
-        <ol className="list-decimal list-inside space-y-2 text-slate-700">
-          <li>
-            Visit{' '}
-            <a
-              href="https://www.browserstack.com/app-automate"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-purple-primary hover:underline"
-            >
-              BrowserStack App Automate
-            </a>
-          </li>
-          <li>Click "Start Free Trial" to register an account</li>
-          <li>
-            Find your <strong>username</strong> and <strong>access key</strong> in the Access Key
-            page
-          </li>
-        </ol>
+      <Step number={2} title="Generate Test Code with AI">
+        <p className="text-slate-700 mb-4">
+          Switch to Agent mode in Copilot Chat and send a prompt with your test scenario:
+        </p>
+        <div className="bg-slate-50 rounded-lg p-6">
+          <pre className="text-sm text-slate-700 whitespace-pre-wrap">
+            {`Scenario: Test macOS Calculator app
+Given I have launched Calculator app
+When I click button "5"
+And I click button "+"
+And I click button "3"
+And I click button "="
+Then The result should be "8"
+
+Please use appium-mcp-server to execute the following instructions:
+Requirements:
+1. Before executing the first step, call clear_cache, and after all steps are completed, sequentially call preview_code_changes and confirm_code_change.
+2. Execute each step exactly as written, in order.
+3. Do not modify, merge, skip, or add any step.
+4. Use only appium-mcp-server API calls.`}
+          </pre>
+        </div>
+        <p className="text-slate-600 mt-4 text-sm">
+          AI will call MCP tools to automatically generate step definition code.
+        </p>
+      </Step>
+
+      <Step number={3} title="Run Tests">
+        <div className="bg-slate-50 rounded-lg p-6">
+          <p className="text-slate-700 mb-3">Run a specific test scenario:</p>
+          <CodeBlock>{`behave --name "Scenario Name"`}</CodeBlock>
+
+          <p className="text-slate-700 mt-6 mb-3">More options:</p>
+          <CodeBlock>
+            {`# Generate JSON report
+behave --format json -o reports/results.json
+
+# Filter using tags
+behave --tags=@smoke
+
+# Verbose output
+behave -v`}
+          </CodeBlock>
+        </div>
+      </Step>
+    </section>
+
+    {/* Troubleshooting */}
+    <section>
+      <h3 className="text-2xl font-bold text-slate-900 mb-4">Troubleshooting</h3>
+      <div className="space-y-4">
+        <div className="bg-slate-50 rounded-lg p-6">
+          <h4 className="font-semibold text-slate-900 mb-2">Appium Server Cannot Start</h4>
+          <ul className="list-disc list-inside space-y-1 text-slate-700">
+            <li>Run <code>sudo xcodebuild -runFirstLaunch</code> for WebDriverAgentMac errors</li>
+            <li>Check Accessibility permissions in System Settings</li>
+            <li>Verify Mac2 driver is installed with <code>appium driver install mac2</code></li>
+          </ul>
+        </div>
+
+        <div className="bg-slate-50 rounded-lg p-6">
+          <h4 className="font-semibold text-slate-900 mb-2">Application Not Found</h4>
+          <ul className="list-disc list-inside space-y-1 text-slate-700">
+            <li>Verify the bundleId in configuration matches your application</li>
+            <li>Check that the application is installed on your Mac</li>
+            <li>Try launching the application manually first</li>
+          </ul>
+        </div>
+
+        <div className="bg-slate-50 rounded-lg p-6">
+          <h4 className="font-semibold text-slate-900 mb-2">MCP Server Issues</h4>
+          <ul className="list-disc list-inside space-y-1 text-slate-700">
+            <li>Restart VS Code or Cursor</li>
+            <li>Verify MCP configuration path is correct</li>
+            <li>Check logs in <code>logs/mcp_server.log</code></li>
+          </ul>
+        </div>
       </div>
+    </section>
+  </div>
+);
 
-      {/* Upload App */}
+// Mobile Platform Content
+const MobileContent = () => (
+  <div className="space-y-12">
+    {/* Prerequisites */}
+    <section>
+      <h3 className="text-2xl font-bold text-slate-900 mb-4">Prerequisites</h3>
       <div className="bg-slate-50 rounded-lg p-6">
-        <p className="font-semibold text-slate-900 mb-3">2. Upload your app to BrowserStack:</p>
-        <p className="text-slate-700 mb-3">Upload via BrowserStack console or command line:</p>
-        <CodeBlock>
-          {`# Android APK
+        <ul className="list-disc list-inside space-y-2 text-slate-700">
+          <li>Python 3.10 or higher</li>
+          <li>VS Code or Cursor</li>
+          <li>BrowserStack account (free trial available)</li>
+        </ul>
+      </div>
+    </section>
+
+    {/* Installation */}
+    <section>
+      <h3 className="text-2xl font-bold text-slate-900 mb-4">Installation</h3>
+      <Step number={1} title="Clone the Repository">
+        <CodeBlock>{`git clone https://github.com/ai-microsoft/AutoGenesis.git
+cd AutoGenesis`}</CodeBlock>
+      </Step>
+
+      <Step number={2} title="Install Dependencies">
+        <CodeBlock>{`pip install -r requirements.txt`}</CodeBlock>
+      </Step>
+    </section>
+
+    {/* Configuration */}
+    <section>
+      <h3 className="text-2xl font-bold text-slate-900 mb-4">Configuration</h3>
+      <Step number={1} title="Register for BrowserStack">
+        <div className="bg-slate-50 rounded-lg p-6">
+          <ol className="list-decimal list-inside space-y-2 text-slate-700">
+            <li>
+              Visit{' '}
+              <a
+                href="https://www.browserstack.com/app-automate"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-purple-primary hover:underline"
+              >
+                BrowserStack App Automate
+              </a>
+            </li>
+            <li>Click "Start Free Trial" to register an account</li>
+            <li>Find your <strong>username</strong> and <strong>access key</strong> in the Access Key page</li>
+          </ol>
+        </div>
+      </Step>
+
+      <Step number={2} title="Upload Your App">
+        <div className="space-y-4">
+          <p className="text-slate-700 mb-3">Upload via BrowserStack console or command line:</p>
+          <CodeBlock>
+            {`# Android APK
 curl -u "username:access_key" -X POST \\
   "https://api-cloud.browserstack.com/app-automate/upload" \\
   -F "file=@/path/to/your/app.apk"
@@ -226,21 +509,20 @@ curl -u "username:access_key" -X POST \\
 curl -u "username:access_key" -X POST \\
   "https://api-cloud.browserstack.com/app-automate/upload" \\
   -F "file=@/path/to/your/app.ipa"`}
-        </CodeBlock>
-        <p className="text-slate-600 mt-3 text-sm">
-          After upload, you'll receive a URL like <code>bs://xxxxxx</code> - save this for
-          configuration.
-        </p>
-      </div>
+          </CodeBlock>
+          <p className="text-slate-600 mt-3 text-sm">
+            After upload, you'll receive a URL like <code>bs://xxxxxx</code> - save this for configuration.
+          </p>
+        </div>
+      </Step>
 
-      {/* Configuration */}
-      <div className="bg-slate-50 rounded-lg p-6">
-        <p className="font-semibold text-slate-900 mb-3">3. Configure BrowserStack connection:</p>
-        <p className="text-slate-700 mb-3">
-          Edit <code className="bg-slate-200 px-2 py-1 rounded">conf/appium_conf.json</code>:
-        </p>
-        <CodeBlock>
-          {`{
+      <Step number={3} title="Configure BrowserStack Connection">
+        <div className="space-y-4">
+          <p className="text-slate-700 mb-3">
+            Edit <code className="bg-slate-200 px-2 py-1 rounded">conf/appium_conf.json</code>:
+          </p>
+          <CodeBlock>
+            {`{
   "android": {
     "platformName": "Android",
     "deviceName": "Google Pixel 8",
@@ -254,100 +536,72 @@ curl -u "username:access_key" -X POST \\
     "appium:app": "bs://your_app_id"
   }
 }`}
-        </CodeBlock>
-      </div>
-    </div>
-  );
-};
-
-// Start server content per platform
-const StartServerContent = ({ platform }: { platform: Platform }) => {
-  if (platform === 'windows') {
-    return (
-      <div className="bg-slate-50 rounded-lg p-6">
-        <p className="text-slate-700 mb-3">Start the MCP server:</p>
-        <CodeBlock>{`python simple_server.py --transport sse`}</CodeBlock>
-        <p className="text-slate-600 mt-3 text-sm">
-          This starts the PyWinauto MCP server on port 8000.
-        </p>
-      </div>
-    );
-  }
-
-  if (platform === 'macos') {
-    return (
-      <div className="space-y-4">
-        <div className="bg-slate-50 rounded-lg p-6">
-          <p className="text-slate-700 mb-3">
-            <strong>Step 1:</strong> Start the Appium server (keep this terminal open):
-          </p>
-          <CodeBlock>{`appium server --port 4723`}</CodeBlock>
-        </div>
-        <div className="bg-slate-50 rounded-lg p-6">
-          <p className="text-slate-700 mb-3">
-            <strong>Step 2:</strong> In a new terminal, start the MCP server:
-          </p>
-          <CodeBlock>
-            {`cd appium-mcp-server
-python simple_server.py --platform mac`}
           </CodeBlock>
         </div>
-      </div>
-    );
-  }
+      </Step>
 
-  // Mobile
-  return (
-    <div className="bg-slate-50 rounded-lg p-6">
-      <p className="text-slate-700 mb-3">Start the MCP server:</p>
-      <CodeBlock>
-        {`cd appium-mcp-server
+      <Step number={4} title="Start MCP Server">
+        <div className="bg-slate-50 rounded-lg p-6">
+          <p className="text-slate-700 mb-3">Start the MCP server:</p>
+          <CodeBlock>
+            {`cd appium-mcp-server
 python simple_server.py --platform android`}
-      </CodeBlock>
-      <p className="text-slate-600 mt-3 text-sm">
-        For iOS testing, use <code>--platform ios</code> instead.
-      </p>
-      <InfoBox variant="info">
-        <p>
-          <strong>Note:</strong> No local Appium server needed - BrowserStack handles the device
-          connection in the cloud.
+          </CodeBlock>
+          <p className="text-slate-600 mt-3 text-sm">
+            For iOS testing, use <code>--platform ios</code> instead.
+          </p>
+          <InfoBox variant="info">
+            <p>
+              <strong>Note:</strong> No local Appium server needed - BrowserStack handles the device connection in the cloud.
+            </p>
+          </InfoBox>
+        </div>
+      </Step>
+
+      <Step number={5} title="Configure VS Code">
+        <div className="space-y-4">
+          <p className="text-slate-700">
+            Add the following to your <code className="bg-slate-200 px-2 py-1 rounded">.vscode/settings.json</code>:
+          </p>
+          <CodeBlock>
+            {`{
+  "github.copilot.chat.mcp.servers": {
+    "appium-mcp": {
+      "command": "python",
+      "args": [
+        "/path/to/AutoGenesis/appium-mcp-server/simple_server.py",
+        "--platform",
+        "android"
+      ]
+    }
+  }
+}`}
+          </CodeBlock>
+          <p className="text-slate-600 text-sm">
+            Replace the path with your actual project location. For Cursor, add to{' '}
+            <code className="bg-slate-200 px-2 py-1 rounded">mcpServers</code> in Cursor settings.
+          </p>
+        </div>
+      </Step>
+    </section>
+
+    {/* Usage */}
+    <section>
+      <h3 className="text-2xl font-bold text-slate-900 mb-4">Usage</h3>
+      <Step number={1} title="Write Test Cases">
+        <p className="text-slate-700 mb-4">
+          Write BDD test cases in Gherkin format. The project includes sample test cases in{' '}
+          <code className="bg-slate-200 px-2 py-1 rounded">behave-demo/features/</code> directory.
         </p>
-      </InfoBox>
-    </div>
-  );
-};
+      </Step>
 
-// Example prompts per platform
-const ExamplePromptContent = ({ platform }: { platform: Platform }) => {
-  const prompts = {
-    windows: `Scenario: Download PDF file
-Given Edge is launched
-When I navigate to "https://getsamplefiles.com/download/pdf/sample-1.pdf"
-Then the Downloads pane should appear
-When I navigate to "edge://downloads"
-Then "sample-1.pdf" should appear in download list
-
-Please use win-auto-mcp to execute the following instructions:
-Requirements:
-1. Before executing the first step, call before_gen_code, and after all steps are completed, sequentially call preview_code_changes and confirm_code_change.
-2. Execute each step exactly as written, in order.
-3. Do not modify, merge, skip, or add any step.
-4. Use only win-auto-mcp API calls.`,
-    macos: `Scenario: Test macOS Calculator app
-Given I have launched Calculator app
-When I click button "5"
-And I click button "+"
-And I click button "3"
-And I click button "="
-Then The result should be "8"
-
-Please use appium-mcp-server to execute the following instructions:
-Requirements:
-1. Before executing the first step, call clear_cache, and after all steps are completed, sequentially call preview_code_changes and confirm_code_change.
-2. Execute each step exactly as written, in order.
-3. Do not modify, merge, skip, or add any step.
-4. Use only appium-mcp-server API calls.`,
-    mobile: `Scenario: Test msn.com website on Edge
+      <Step number={2} title="Generate Test Code with AI">
+        <p className="text-slate-700 mb-4">
+          Switch to Agent mode in Copilot Chat and send a prompt with your test scenario:
+        </p>
+        <div className="bg-slate-50 rounded-lg p-6">
+          <pre className="text-sm text-slate-700 whitespace-pre-wrap">
+            {`Scenario: Test msn.com website on Edge
 Given I have launched Edge browser
 When I click the search box in NTP page
 And I input "msn.com" in the search box
@@ -360,71 +614,102 @@ Requirements:
 1. Before executing the first step, call clear_cache, and after all steps are completed, sequentially call preview_code_changes and confirm_code_change.
 2. Execute each step exactly as written, in order.
 3. Do not modify, merge, skip, or add any step.
-4. Use only appium-mcp-server API calls.`,
-  };
+4. Use only appium-mcp-server API calls.`}
+          </pre>
+        </div>
+        <p className="text-slate-600 mt-4 text-sm">
+          AI will call MCP tools to automatically generate step definition code.
+        </p>
+      </Step>
 
-  return (
-    <div className="bg-slate-50 rounded-lg p-6">
-      <pre className="text-sm text-slate-700 whitespace-pre-wrap">{prompts[platform]}</pre>
-    </div>
-  );
-};
+      <Step number={3} title="Run Tests">
+        <div className="bg-slate-50 rounded-lg p-6">
+          <p className="text-slate-700 mb-3">Run a specific test scenario:</p>
+          <CodeBlock>{`behave --name "Scenario Name"`}</CodeBlock>
 
-// MCP Config content per platform
-const MCPConfigContent = ({ platform }: { platform: Platform }) => {
-  const configs = {
-    windows: {
-      serverName: 'pywinauto',
-      args: `[
-        "C:\\\\Users\\\\<username>\\\\projects\\\\AutoGenesis\\\\pywinauto-mcp-server\\\\simple_server.py",
-        "--transport",
-        "stdio"
-      ]`,
-    },
-    macos: {
-      serverName: 'appium-mcp-mac',
-      args: `[
-        "/Users/<username>/projects/AutoGenesis/appium-mcp-server/simple_server.py",
-        "--platform",
-        "mac"
-      ]`,
-    },
-    mobile: {
-      serverName: 'appium-mcp',
-      args: `[
-        "/path/to/AutoGenesis/appium-mcp-server/simple_server.py",
-        "--platform",
-        "android"
-      ]`,
-    },
-  };
+          <p className="text-slate-700 mt-6 mb-3">More options:</p>
+          <CodeBlock>
+            {`# Generate JSON report
+behave --format json -o reports/results.json
 
-  const config = configs[platform];
+# Filter using tags
+behave --tags=@smoke
 
-  return (
-    <div className="space-y-4">
-      <p className="text-slate-700">
-        Add the following to your <code className="bg-slate-200 px-2 py-1 rounded">.vscode/settings.json</code>:
-      </p>
-      <CodeBlock>
-        {`{
-  "github.copilot.chat.mcp.servers": {
-    "${config.serverName}": {
-      "command": "python",
-      "args": ${config.args}
-    }
-  }
-}`}
-      </CodeBlock>
-      <p className="text-slate-600 text-sm">
-        Replace the path with your actual project location. For Cursor, add to{' '}
-        <code className="bg-slate-200 px-2 py-1 rounded">mcpServers</code> in Cursor settings.
-      </p>
-    </div>
-  );
-};
+# Verbose output
+behave -v`}
+          </CodeBlock>
+        </div>
+      </Step>
+    </section>
+
+    {/* Troubleshooting */}
+    <section>
+      <h3 className="text-2xl font-bold text-slate-900 mb-4">Troubleshooting</h3>
+      <div className="space-y-4">
+        <div className="bg-slate-50 rounded-lg p-6">
+          <h4 className="font-semibold text-slate-900 mb-2">BrowserStack Connection Failed</h4>
+          <ul className="list-disc list-inside space-y-1 text-slate-700">
+            <li>Verify username and access key are correct</li>
+            <li>Check network connection</li>
+            <li>Confirm BrowserStack account is active</li>
+          </ul>
+        </div>
+
+        <div className="bg-slate-50 rounded-lg p-6">
+          <h4 className="font-semibold text-slate-900 mb-2">App Upload Failed</h4>
+          <ul className="list-disc list-inside space-y-1 text-slate-700">
+            <li>Ensure the app file path is correct</li>
+            <li>Check if the app meets BrowserStack requirements</li>
+            <li>Try uploading through the web console</li>
+          </ul>
+        </div>
+
+        <div className="bg-slate-50 rounded-lg p-6">
+          <h4 className="font-semibold text-slate-900 mb-2">MCP Server Issues</h4>
+          <ul className="list-disc list-inside space-y-1 text-slate-700">
+            <li>Restart VS Code or Cursor</li>
+            <li>Verify MCP configuration path is correct</li>
+            <li>Check logs in <code>logs/mcp_server.log</code></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+);
 
 export const GetStarted = () => {
+  const [activePlatform, setActivePlatform] = useState<Platform>('windows');
+
+  const platforms = [
+    { 
+      id: 'windows' as Platform, 
+      name: 'Windows',
+      icon: (
+        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801" />
+        </svg>
+      )
+    },
+    { 
+      id: 'macos' as Platform, 
+      name: 'macOS',
+      icon: (
+        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" />
+        </svg>
+      )
+    },
+    { 
+      id: 'mobile' as Platform, 
+      name: 'Mobile',
+      icon: (
+        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17 1H7c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm0 18H7V5h10v14zm-5-1c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1z"/>
+        </svg>
+      )
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-bg via-white to-primary-bg py-20">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-16">
@@ -436,214 +721,51 @@ export const GetStarted = () => {
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4 text-center">
             Get Started with FSQ
           </h1>
-          <p className="text-slate-600 text-center mb-8 text-lg">
+          <p className="text-slate-600 text-center mb-12 text-lg">
             AI-powered automation testing for Windows, macOS, and Mobile platforms
           </p>
 
-          {/* ===== Section 1: Prerequisites ===== */}
-          <section className="mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-6">Prerequisites</h2>
-            <PlatformTabs>
-              {(platform: Platform) => <PrerequisitesContent platform={platform} />}
-            </PlatformTabs>
-          </section>
-
-          {/* ===== Section 2: Clone & Install (Shared) ===== */}
-          <section className="mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-6">Clone & Install</h2>
-
-            <Step number={1} title="Clone the Repository">
-              <CodeBlock>{`git clone https://github.com/ai-microsoft/AutoGenesis.git
-cd AutoGenesis`}</CodeBlock>
-            </Step>
-
-            <Step number={2} title="Install Dependencies">
-              <CodeBlock>{`pip install -r requirements.txt`}</CodeBlock>
-            </Step>
-          </section>
-
-          {/* ===== Section 3: Configure Automation Environment ===== */}
-          <section className="mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-6">
-              Configure Automation Environment
-            </h2>
-            <PlatformTabs>
-              {(platform: Platform) => <AutomationSetupContent platform={platform} />}
-            </PlatformTabs>
-          </section>
-
-          {/* ===== Section 4: Start Server ===== */}
-          <section className="mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-6">Start MCP Server</h2>
-            <PlatformTabs>
-              {(platform: Platform) => <StartServerContent platform={platform} />}
-            </PlatformTabs>
-          </section>
-
-          {/* ===== Section 5: Configure MCP Client ===== */}
-          <section className="mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-6">Configure MCP Client</h2>
-
-            <Step number={1} title="Install VS Code and GitHub Copilot">
-              <p className="text-slate-700 mb-4">
-                Download{' '}
-                <a
-                  href="https://code.visualstudio.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-purple-primary hover:underline"
+          {/* Platform Tabs */}
+          <div className="flex justify-center mb-8">
+            <div className="inline-flex rounded-lg border border-slate-200 p-1 bg-slate-50">
+              {platforms.map((platform) => (
+                <button
+                  key={platform.id}
+                  onClick={() => setActivePlatform(platform.id)}
+                  className={`px-6 py-3 rounded-md font-medium transition-all flex items-center gap-2 ${
+                    activePlatform === platform.id
+                      ? 'bg-purple-primary text-white shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
                 >
-                  VS Code
-                </a>{' '}
-                and install the GitHub Copilot extension from the Extensions Marketplace.
-              </p>
-            </Step>
-
-            <Step number={2} title="Install BDD AI Toolkit Extension">
-              <div className="bg-slate-50 rounded-lg p-6">
-                <ol className="list-decimal list-inside space-y-2 text-slate-700">
-                  <li>Open VS Code Extensions view (Ctrl+Shift+X / Cmd+Shift+X)</li>
-                  <li>Search for "BDD AI Toolkit" and install it</li>
-                  <li>Search for "Cucumber (Gherkin) Full Support" and install it</li>
-                </ol>
-              </div>
-            </Step>
-
-            <Step number={3} title="Configure MCP Server Connection">
-              <PlatformTabs>
-                {(platform: Platform) => <MCPConfigContent platform={platform} />}
-              </PlatformTabs>
-            </Step>
-          </section>
-
-          {/* ===== Section 6: Generate Test Code (Shared) ===== */}
-          <section className="mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-6">Generate Test Code</h2>
-
-            <Step number={1} title="Write Test Cases">
-              <p className="text-slate-700 mb-4">
-                Write BDD test cases in Gherkin format. The project includes sample test cases in{' '}
-                <code className="bg-slate-200 px-2 py-1 rounded">behave-demo/features/</code>{' '}
-                directory.
-              </p>
-            </Step>
-
-            <Step number={2} title="Send Prompt to Generate Code">
-              <p className="text-slate-700 mb-4">
-                Switch to Agent mode in Copilot Chat and send a prompt with your test scenario:
-              </p>
-              <PlatformTabs>
-                {(platform: Platform) => <ExamplePromptContent platform={platform} />}
-              </PlatformTabs>
-              <p className="text-slate-600 mt-4 text-sm">
-                AI will call MCP tools to automatically generate step definition code.
-              </p>
-            </Step>
-          </section>
-
-          {/* ===== Section 7: Run Tests (Shared) ===== */}
-          <section className="mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-6">Run Tests</h2>
-
-            <div className="bg-slate-50 rounded-lg p-6">
-              <p className="text-slate-700 mb-3">Run a specific test scenario:</p>
-              <CodeBlock>{`behave --name "Scenario Name"`}</CodeBlock>
-
-              <p className="text-slate-700 mt-6 mb-3">More options:</p>
-              <CodeBlock>
-                {`# Generate JSON report
-behave --format json -o reports/results.json
-
-# Filter using tags
-behave --tags=@smoke
-
-# Verbose output
-behave -v`}
-              </CodeBlock>
+                  {platform.icon}
+                  {platform.name}
+                </button>
+              ))}
             </div>
-          </section>
+          </div>
 
-          {/* ===== Section 8: Troubleshooting ===== */}
-          <section className="mb-8">
-            <h2 className="text-3xl font-bold text-slate-900 mb-6">Troubleshooting</h2>
-
-            <div className="space-y-4">
-              <div className="bg-slate-50 rounded-lg p-6">
-                <h4 className="font-semibold text-slate-900 mb-2">MCP Server Cannot Start</h4>
-                <p className="text-slate-700">
-                  Check Python version is 3.10+ with <code>python --version</code>. Review logs in{' '}
-                  <code>logs/mcp_server.log</code>.
-                </p>
-              </div>
-
-              <div className="bg-slate-50 rounded-lg p-6">
-                <h4 className="font-semibold text-slate-900 mb-2">
-                  AI Client Cannot Recognize MCP Tools
-                </h4>
-                <ul className="list-disc list-inside space-y-1 text-slate-700">
-                  <li>Restart VS Code or Cursor</li>
-                  <li>Verify MCP configuration path is correct</li>
-                  <li>Confirm MCP Server has started successfully</li>
-                </ul>
-              </div>
-
-              <PlatformTabs>
-                {(platform: Platform) => (
-                  <PlatformContent
-                    platform={platform}
-                    windows={
-                      <div className="bg-slate-50 rounded-lg p-6">
-                        <h4 className="font-semibold text-slate-900 mb-2">Cannot Find Element</h4>
-                        <ul className="list-disc list-inside space-y-1 text-slate-700">
-                          <li>Ensure the target application is open and active</li>
-                          <li>Some applications may require administrator privileges</li>
-                          <li>Verify element's title and control_type are correct</li>
-                        </ul>
-                      </div>
-                    }
-                    macos={
-                      <div className="bg-slate-50 rounded-lg p-6">
-                        <h4 className="font-semibold text-slate-900 mb-2">
-                          Appium Server Cannot Start
-                        </h4>
-                        <ul className="list-disc list-inside space-y-1 text-slate-700">
-                          <li>
-                            Run <code>sudo xcodebuild -runFirstLaunch</code> for WebDriverAgentMac
-                            errors
-                          </li>
-                          <li>Check Accessibility permissions in System Settings</li>
-                          <li>
-                            Verify Mac2 driver is installed with{' '}
-                            <code>appium driver install mac2</code>
-                          </li>
-                        </ul>
-                      </div>
-                    }
-                    mobile={
-                      <div className="bg-slate-50 rounded-lg p-6">
-                        <h4 className="font-semibold text-slate-900 mb-2">
-                          BrowserStack Connection Failed
-                        </h4>
-                        <ul className="list-disc list-inside space-y-1 text-slate-700">
-                          <li>Verify username and access key are correct</li>
-                          <li>Check network connection</li>
-                          <li>Confirm BrowserStack account is active</li>
-                        </ul>
-                      </div>
-                    }
-                  />
-                )}
-              </PlatformTabs>
-            </div>
-          </section>
+          {/* Platform Content */}
+          <motion.div
+            key={activePlatform}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {activePlatform === 'windows' && <WindowsContent />}
+            {activePlatform === 'macos' && <MacOSContent />}
+            {activePlatform === 'mobile' && <MobileContent />}
+          </motion.div>
 
           {/* Success message */}
-          <InfoBox variant="success">
-            <p>
-              <strong>Congratulations!</strong> You're ready to start generating automated test
-              scripts with AI. Check out the sample test cases in the project to learn more.
-            </p>
-          </InfoBox>
+          <div className="mt-12">
+            <InfoBox variant="success">
+              <p>
+                <strong>Congratulations!</strong> You're ready to start generating automated test
+                scripts with AI. Check out the sample test cases in the project to learn more.
+              </p>
+            </InfoBox>
+          </div>
         </motion.div>
       </div>
     </div>
