@@ -127,10 +127,10 @@ export const Features = () => {
           {/* CI/CD row */}
           <div className="flex flex-wrap justify-center items-center gap-10 md:gap-14">
             {[
-              { name: 'Azure DevOps', logo: '/logos/azure-devops.svg' },
-              { name: 'CircleCI', logo: '/logos/circleci.svg' },
-              { name: 'Jenkins', logo: '/logos/jenkins.svg' },
-              { name: 'Travis CI', logo: '/logos/travis-ci.svg' },
+              { name: 'Azure DevOps', logo: '/fsq-site/logos/azure-devops.svg' },
+              { name: 'CircleCI', logo: '/fsq-site/logos/circleci.svg' },
+              { name: 'Jenkins', logo: '/fsq-site/logos/jenkins.svg' },
+              { name: 'Travis CI', logo: '/fsq-site/logos/travis-ci.svg' },
             ].map((ci, index) => (
               <motion.div
                 key={ci.name}
