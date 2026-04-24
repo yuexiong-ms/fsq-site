@@ -6,7 +6,7 @@ import { GetStarted } from './pages/GetStarted';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/fsq-site">
       <div className="min-h-screen bg-white">
         <Header />
         <Routes>
