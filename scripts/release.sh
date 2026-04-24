@@ -6,7 +6,7 @@
 set -e
 
 # Configuration
-ACR_REGISTRY="steinsz.azurecr.io"
+ACR_REGISTRY="edgequality.azurecr.io"
 IMAGE_NAME="fsd-site"
 FULL_IMAGE="${ACR_REGISTRY}/${IMAGE_NAME}"
 
