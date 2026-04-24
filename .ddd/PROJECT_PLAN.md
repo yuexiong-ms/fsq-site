@@ -203,9 +203,9 @@ Text Colors (Tailwind defaults):
 #### Phase 3: Deployment
 - [x] Docker setup with multi-stage build
 - [x] Nginx configuration for production
-- [x] Azure Container Registry (steinsz.azurecr.io)
+- [x] GitHub Actions workflow for automated deployment
 - [x] Build scripts (debug.sh, release.sh)
-- [x] Azure Web App deployment
+- [x] GitHub Pages deployment
 
 ---
 

@@ -146,28 +146,31 @@ docker run -d -p 8080:80 fsd-site:latest
 
 **Image**: `fsd-site:latest` (builds for your current platform)
 
-### Production Release
+### Production Build
 
-Build multi-platform image and push to Azure Container Registry:
+Build static site for production deployment:
 
 ```bash
-# Release to ACR
+# Build static files
 ./scripts/release.sh
 ```
 
-**Image**: `steinsz.azurecr.io/fsd-site:latest`
+**Output**: Static files in `./dist/` directory
 
-**Platform**: linux/amd64 (x86_64) for production Linux servers
+### Deployment
 
-See `scripts/README.md` for details.
+This site is automatically deployed to GitHub Pages via GitHub Actions:
 
-### Static Hosting
+- **Live URL**: https://yuexiong-ms.github.io/fsq-site/
+- **Deployment**: Automatic on push to `main` branch
+- **Build Tool**: GitHub Actions with pnpm
 
-This is a static site and can also be deployed to:
+#### Manual Static Hosting
+
+The built static files can also be deployed to:
 - **Vercel**: `vercel deploy`
 - **Netlify**: Drag & drop the `dist` folder
-- **GitHub Pages**: Copy `dist` contents to `gh-pages` branch
-- **Any static hosting service**
+- **Any static hosting service**: Upload `dist` folder contents
 
 ## License
 
